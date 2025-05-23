@@ -85,7 +85,7 @@ sudo dnf install -y \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # حدث كله علشان كله يشتغل مع بعض
-sudo dnf groupupdate -y core --allowerasing
+sudo dnf group upgrade core
 sudo dnf check-update
 ```
 
