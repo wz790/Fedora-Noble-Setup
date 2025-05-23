@@ -300,6 +300,12 @@ sudo systemctl disable NetworkManager-wait-online.service
 Fedora's power management is pretty good, but if you want more control:
 
 ```bash
+#First Stop the Power Profiles Daemon
+sudo systemctl stop power-profiles-daemon.service
+
+#then Mask it because it make conflict with TLP
+sudo systemctl mask power-profiles-daemon.service
+
 # Install TLP (only if you need it)
 sudo dnf install -y tlp tlp-rdw
 
