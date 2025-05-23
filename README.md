@@ -1,0 +1,525 @@
+# ✨ MY Fedora Linux Noble Setup Guide (Post-Installation)
+
+<p align="center">
+  <img src="src/assets/logo.png" alt="Fedora Setup Logo - Nord Style" width="250"/>
+</p>
+
+Hey there! So you just installed Fedora and now you're staring at a fresh desktop wondering "what next?" I've been there, and honestly, setting up a new Linux install can feel overwhelming. That's why I put together this guide - it's basically everything I wish someone had told me when I first switched to Fedora.
+
+This isn't some corporate documentation. It's just me sharing what actually works, what breaks, and how to fix it when things go sideways (because they will, and that's totally normal).
+
+**Who's this for?**
+- Brand new to Fedora? Perfect.
+- Coming from Ubuntu or another distro? Also perfect.
+- Been using Fedora for years but want a solid checklist? Yep, you too.
+- Complete Linux newbie? You might struggle a bit, but stick with it!
+
+**Quick heads up about commands:**
+- When you see `sudo` at the start, that means "run as admin" - it'll ask for your password
+- The `-y` flag just means "yes to everything" so you don't have to keep pressing enter
+- Copy-paste is your friend, but always read what you're about to run first
+
+---
+
+## 📋 What We're Covering
+
+1. [🔥 First Things First](#-first-things-first)
+   - [RPM Fusion - The Good Stuff](#rpm-fusion---the-good-stuff)
+   - [Updates (Boring but Important)](#updates-boring-but-important)
+   - [Firmware Updates](#firmware-updates)
+   - [Give Your Computer a Name](#give-your-computer-a-name)
+2. [📦 Getting More Software](#-getting-more-software)
+   - [Flathub Setup](#flathub-setup)
+   - [Terra Repository](#terra-repository-if-youre-feeling-adventurous)
+3. [🎮 Graphics Drivers](#-graphics-drivers)
+   - [NVIDIA (The Tricky One)](#nvidia-the-tricky-one)
+   - [AMD & Intel (The Easy Ones)](#amd--intel-the-easy-ones)
+4. [🎵 Making Media Work](#-making-media-work)
+   - [Video Codecs](#video-codecs-so-everything-plays)
+   - [Hardware Acceleration](#hardware-acceleration)
+   - [Firefox Video Fix](#firefox-video-fix)
+5. [🔧 Useful Stuff](#-useful-stuff)
+   - [Archive Support](#archive-support)
+   - [Microsoft Fonts](#microsoft-fonts-unfortunately-still-needed)
+   - [AppImage Support](#appimage-support)
+6. [⚡ Making Things Faster](#-making-things-faster)
+   - [Faster Boots](#faster-boots)
+   - [Better Battery Life](#better-battery-life)
+   - [Dual Boot Time Fix](#dual-boot-time-fix)
+   - [Performance Tweaks](#performance-tweaks-proceed-with-caution)
+7. [🔒 Security Stuff](#-security-stuff)
+   - [Encrypted DNS](#encrypted-dns-optional-but-cool)
+8. [💾 Backup Your Stuff](#-backup-your-stuff)
+   - [System Snapshots](#system-snapshots)
+   - [Personal Files](#personal-files)
+9. [🎮 Gaming Setup](#-gaming-setup)
+   - [Steam and Gaming](#steam-and-gaming)
+10. [🌟 Apps I Actually Use](#-apps-i-actually-use)
+    - [Browsers](#browsers)
+    - [Development](#development)
+    - [Office Work](#office-work)
+11. [🧹 Keeping Things Clean](#-keeping-things-clean)
+    - [Removing Bloat](#removing-bloat)
+    - [System Cleanup](#system-cleanup)
+12. [👏 Thanks](#thanks)
+
+---
+
+## 🔥 First Things First
+
+### RPM Fusion - The Good Stuff
+
+Okay, first thing - Fedora ships pretty bare-bones because of legal reasons. RPM Fusion is where all the actually useful stuff lives (codecs, drivers, etc.). You want this.
+
+```bash
+# Get the free repository (most stuff you need)
+sudo dnf install -y \
+  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+
+# Get the nonfree repository (NVIDIA drivers, some codecs)
+sudo dnf install -y \
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# Update everything so it all plays nice together
+sudo dnf groupupdate -y core --allowerasing
+sudo dnf check-update
+```
+
+### Updates (Boring but Important)
+
+Yeah, I know, updates are boring. But seriously, do this first. Fresh installs always have outdated packages.
+
+```bash
+# Update everything
+sudo dnf update -y
+
+# If it updated the kernel, reboot
+sudo reboot
+```
+
+### Firmware Updates
+
+Your hardware probably has newer firmware available. This actually matters for things like WiFi and battery life.
+
+```bash
+# See what can be updated
+sudo fwupdmgr get-devices
+
+# Refresh the firmware database
+sudo fwupdmgr refresh --force
+
+# Check for updates
+sudo fwupdmgr get-updates
+
+# Apply them
+sudo fwupdmgr update
+```
+
+Some firmware updates need a reboot. Just do it.
+
+### Give Your Computer a Name
+
+This is purely cosmetic but makes you feel more at home. Pick something fun!
+
+```bash
+# Replace with whatever you want
+sudo hostnamectl set-hostname my-awesome-fedora-box
+```
+
+## 📦 Getting More Software
+
+### Flathub Setup
+
+Fedora comes with a neutered version of Flatpak. Flathub is where the actual apps are.
+
+```bash
+# Remove the limited Fedora repo
+flatpak remote-delete fedora
+
+# Add the real Flathub
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# Update everything
+flatpak update --appstream
+```
+
+### Terra Repository (If You're Feeling Adventurous)
+
+Terra has some community packages that aren't in the main repos. It's optional but sometimes useful.
+
+```bash
+sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+```
+
+## 🎮 Graphics Drivers
+
+### NVIDIA (The Tricky One)
+
+NVIDIA on Linux is... complicated. This works most of the time, but if you have issues, welcome to the club.
+
+**Before you start:**
+- Turn off Secure Boot in your BIOS (or learn to sign kernel modules - your choice)
+- Make sure everything is updated and rebooted
+
+```bash
+# Install build tools
+sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
+
+# If you have RTX 40 series or newer, enable open kernel modules
+sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+
+# Install the drivers
+sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+
+# Now wait. Seriously, this takes 5-15 minutes
+# You can watch the progress with: sudo journalctl -f -u akmods
+
+# Reboot when it's done
+sudo reboot
+
+# Check if it worked
+nvidia-smi
+```
+
+**If it doesn't work:**
+```bash
+# Force rebuild and try again
+sudo akmods --force --kernels $(uname -r)
+sudo reboot
+```
+
+### AMD & Intel (The Easy Ones)
+
+These usually just work, but let's make them work better.
+
+```bash
+# Basic drivers and Vulkan support
+sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
+
+# AMD video acceleration (makes videos smoother)
+sudo dnf install -y mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld
+
+# Intel video acceleration (for newer Intel GPUs)
+sudo dnf install -y intel-media-driver
+```
+
+## 🎵 Making Media Work
+
+### Video Codecs (So Everything Plays)
+
+Fedora ships with basically no codecs because of patent issues. This fixes that.
+
+```bash
+# Replace the neutered ffmpeg with the real one
+sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
+
+# Install all the GStreamer plugins
+sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav lame\* --exclude=gstreamer1-plugins-bad-free-devel
+
+# Install multimedia groups
+sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --allowerasing
+sudo dnf groupupdate -y sound-and-video --allowerasing
+```
+
+### Hardware Acceleration
+
+This makes video playback use your GPU instead of hammering your CPU.
+
+```bash
+# Install VA-API stuff
+sudo dnf install -y ffmpeg-libs libva libva-utils
+
+# If you have NVIDIA, add this too
+sudo dnf install -y nvidia-vaapi-driver
+```
+
+### Firefox Video Fix
+
+Firefox needs a little help with H.264 videos.
+
+```bash
+# Install the Cisco codec (it's free but weird licensing)
+sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
+
+# Enable the Cisco repo
+sudo dnf config-manager --set-enabled fedora-cisco-openh264
+sudo dnf update -y
+```
+
+Restart Firefox and check that the OpenH264 plugin is enabled in `about:addons`.
+
+## 🔧 Useful Stuff
+
+### Archive Support
+
+Because you'll definitely need to extract a .rar file someday.
+
+```bash
+sudo dnf install -y p7zip p7zip-plugins unrar
+```
+
+### Microsoft Fonts (Unfortunately Still Needed)
+
+Web pages and documents still look weird without these.
+
+```bash
+# Install dependencies
+sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+
+# Install the fonts
+sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+
+# Update font cache
+sudo fc-cache -fv
+```
+
+### AppImage Support
+
+Some apps only come as AppImages. This makes them work.
+
+```bash
+# Install FUSE
+sudo dnf install -y fuse libfuse2
+
+# Optional: AppImage manager (actually pretty useful)
+flatpak install -y flathub it.mijorus.gearlever
+```
+
+## ⚡ Making Things Faster
+
+### Faster Boots
+
+This one's easy and makes a noticeable difference.
+
+```bash
+sudo systemctl disable NetworkManager-wait-online.service
+```
+
+### Better Battery Life
+
+Fedora's power management is pretty good, but if you want more control:
+
+```bash
+# Install TLP (only if you need it)
+sudo dnf install -y tlp tlp-rdw
+
+# Enable it
+sudo systemctl enable --now tlp
+sudo systemctl mask power-profiles-daemon.service
+
+# For analyzing power usage
+sudo dnf install -y powertop
+```
+
+Only install TLP if Fedora's built-in power management isn't working for you.
+
+### Dual Boot Time Fix
+
+If you dual boot with Windows, this fixes the clock being wrong.
+
+```bash
+# Tell Fedora to use UTC for hardware clock
+sudo timedatectl set-local-rtc 0 --adjust-system-clock
+```
+
+### Performance Tweaks (Proceed with Caution)
+
+**⚠️ WARNING:** This disables important security features. Only do this if you know what you're doing and really need the performance.
+
+```bash
+# To disable CPU mitigations (NOT recommended)
+# sudo grubby --update-kernel=ALL --args="mitigations=off"
+
+# To re-enable them later (DO THIS)
+# sudo grubby --update-kernel=ALL --remove-args="mitigations=off"
+```
+
+## 🔒 Security Stuff
+
+### Encrypted DNS (Optional but Cool)
+
+This encrypts your DNS queries so your ISP can't see what websites you're visiting.
+
+```bash
+# Install dnscrypt-proxy
+sudo dnf install -y dnscrypt-proxy
+
+# Configure it
+sudo bash -c 'cat > /etc/dnscrypt-proxy/dnscrypt-proxy.toml <<EOL
+listen_addresses = ["127.0.0.1:53", "[::1]:53"]
+server_names = ["cloudflare"]
+doh_servers = true
+dnscrypt_servers = false
+cache_size = 512
+cache_min_ttl = 2400
+cache_max_ttl = 86400
+EOL'
+
+# Enable it
+sudo systemctl enable --now dnscrypt-proxy.service
+
+# Configure systemd-resolved
+sudo mkdir -p /etc/systemd/resolved.conf.d
+sudo bash -c 'cat > /etc/systemd/resolved.conf.d/00-dnscrypt.conf <<EOL
+[Resolve]
+DNS=127.0.0.1#53 ::1#53
+DNSSEC=allow-downgrade
+Domains=~.
+EOL'
+
+# Restart services
+sudo systemctl restart systemd-resolved.service
+
+# Tell NetworkManager to stay out of the way
+sudo bash -c 'cat > /etc/NetworkManager/conf.d/01-dnscrypt-proxy.conf <<EOL
+[main]
+dns=none
+systemd-resolved=false
+EOL'
+
+sudo systemctl restart NetworkManager
+sudo systemctl restart dnscrypt-proxy.service
+
+# Test it
+dig A example.com @127.0.0.1
+```
+
+## 💾 Backup Your Stuff
+
+### System Snapshots
+
+If you're using Btrfs (default in newer Fedora), you can take snapshots.
+
+```bash
+sudo dnf install -y btrfs-assistant btrbk snapper
+```
+
+Setup:
+1. Run `btrfs-assistant` to set up snapshots with a GUI
+2. Enable automatic snapshots:
+```bash
+sudo systemctl enable --now snapper-timeline.timer
+sudo systemctl enable --now snapper-cleanup.timer
+```
+
+**Important:** This only backs up system files, not your personal stuff unless you configure it differently.
+
+### Personal Files
+
+Use Déjà Dup for your documents, photos, etc.
+
+```bash
+# Install it
+sudo dnf install -y deja-dup
+
+# Or get it from Flathub
+flatpak install -y flathub org.gnome.DejaDup
+```
+
+**Always backup to external storage or cloud, not the same disk.**
+
+## 🎮 Gaming Setup
+
+### Steam and Gaming
+
+Steam works great on Fedora thanks to Proton.
+
+```bash
+sudo dnf install -y steam
+```
+
+That's it. Seriously. Most Windows games just work now.
+
+## 🌟 Apps I Actually Use
+
+### Browsers
+
+**Brave** (blocks ads, pretty fast):
+```bash
+sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+sudo dnf install -y brave-browser
+```
+
+**Vivaldi** (tons of customization options):
+```bash
+sudo dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+sudo rpm --import https://repo.vivaldi.com/archive/linux_signing_key.pub
+sudo dnf install -y vivaldi-stable
+```
+
+### Development
+
+**VS Code:**
+```bash
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+sudo dnf install -y code
+```
+
+**Git:**
+```bash
+sudo dnf install -y git
+```
+
+**Containers (Podman is better than Docker, fight me):**
+```bash
+sudo dnf install -y podman podman-compose podman-docker
+```
+
+### Office Work
+
+**LibreOffice** (probably already installed):
+```bash
+sudo dnf install -y libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw
+```
+
+**OnlyOffice** (better MS Office compatibility):
+```bash
+sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors.x86_64.rpm
+```
+
+## 🧹 Keeping Things Clean
+
+### Removing Bloat
+
+**Be careful here.** Only remove stuff you're sure you don't need.
+
+```bash
+# See what's installed
+dnf list installed | less
+
+# Check what depends on a package before removing it
+dnf info package-name
+dnf repoquery --whatrequires package-name
+
+# Example removals (modify for your needs)
+# sudo dnf remove -y cheese rhythmbox
+```
+
+### System Cleanup
+
+Do this occasionally to free up space.
+
+```bash
+# Clean package cache
+sudo dnf clean all
+
+# Remove orphaned packages
+sudo dnf autoremove -y
+
+# Remove old kernels (if you have too many)
+# sudo dnf remove $(dnf repoquery --installonly --latest-limit=-2 -q)
+```
+
+---
+
+## 👏 Thanks
+
+This guide exists because a bunch of people before me figured this stuff out and shared it. Big thanks to folks like devangshekhawat, paulsorensen, Mohammed Besar, and countless others on forums and Reddit who've helped people get Fedora working properly.
+
+*This isn't official Fedora documentation - it's just what works for me. Your mileage may vary. Always backup important stuff before making big changes, and don't blame me if something breaks (but feel free to ask for help on the Fedora forums).*
+
+---
+
+**Final note:** Linux can be frustrating sometimes, but it's also incredibly rewarding once you get it set up the way you like. Don't give up if something doesn't work the first time - that's just part of the experience!
