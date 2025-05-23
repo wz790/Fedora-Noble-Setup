@@ -311,7 +311,6 @@ sudo dnf install -y tlp tlp-rdw
 
 # Enable it
 sudo systemctl enable --now tlp
-sudo systemctl mask power-profiles-daemon.service
 
 # For analyzing power usage
 sudo dnf install -y powertop
