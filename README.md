@@ -81,7 +81,7 @@ sudo dnf install -y \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Update everything so it all plays nice together
-sudo dnf group upgrade core
+sudo dnf group upgrade core -y
 sudo dnf check-update
 ```
 
