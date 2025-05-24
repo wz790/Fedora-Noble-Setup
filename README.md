@@ -163,9 +163,6 @@ NVIDIA on Linux is... complicated. This works most of the time, but if you have 
 
 ```bash
 # Update and reboot first
-sudo dnf update -y
-sudo reboot
-
 # Install kernel headers and dev tools
 sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 
