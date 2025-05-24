@@ -153,7 +153,7 @@ sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.co
 
 ## 🎮 Graphics Drivers
 
-# NVIDIA (The Tricky One)
+### NVIDIA (The Tricky One)
 
 NVIDIA on Linux is... complicated. This works most of the time, but if you have issues, welcome to the club.
 
