@@ -397,42 +397,43 @@ This encrypts your DNS queries so your ISP can't see what websites you're visiti
 sudo dnf install -y dnscrypt-proxy
 
 # Configure it
-sudo bash -c 'cat > /etc/dnscrypt-proxy/dnscrypt-proxy.toml <<EOL
-listen_addresses = ["127.0.0.1:53", "[::1]:53"]
-server_names = ["cloudflare"]
+sudo tee /etc/dnscrypt-proxy/dnscrypt-proxy.toml > /dev/null <<'EOF'
+listen_addresses = ['127.0.0.1:53', '[::1]:53']
+server_names = ['cloudflare']
 doh_servers = true
 dnscrypt_servers = false
 cache_size = 512
 cache_min_ttl = 2400
 cache_max_ttl = 86400
-EOL'
+EOF
 
-# Enable it
+# Enable and start the service
 sudo systemctl enable --now dnscrypt-proxy.service
 
 # Configure systemd-resolved
 sudo mkdir -p /etc/systemd/resolved.conf.d
-sudo bash -c 'cat > /etc/systemd/resolved.conf.d/00-dnscrypt.conf <<EOL
+sudo tee /etc/systemd/resolved.conf.d/00-dnscrypt.conf > /dev/null <<'EOF'
 [Resolve]
 DNS=127.0.0.1#53 ::1#53
 DNSSEC=allow-downgrade
 Domains=~.
-EOL'
+EOF
 
-# Restart services
+# Restart systemd-resolved
 sudo systemctl restart systemd-resolved.service
 
-# Tell NetworkManager to stay out of the way
-sudo bash -c 'cat > /etc/NetworkManager/conf.d/01-dnscrypt-proxy.conf <<EOL
+# Tell NetworkManager to stay out of DNS handling
+sudo tee /etc/NetworkManager/conf.d/01-dnscrypt-proxy.conf > /dev/null <<'EOF'
 [main]
 dns=none
 systemd-resolved=false
-EOL'
+EOF
 
+# Restart NetworkManager and dnscrypt-proxy
 sudo systemctl restart NetworkManager
 sudo systemctl restart dnscrypt-proxy.service
 
-# Test it
+# Test DNS resolution
 dig A example.com @127.0.0.1
 ```
 
