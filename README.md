@@ -546,15 +546,13 @@ sudo dnf install -y git
 
 **Containers ([Podman](https://podman.io/) is better than Docker, fight me):**
 ```bash
+#Podman core
 sudo dnf install -y podman podman-compose podman-docker
+#Podmman GUI
+flatpak install flathub io.podman_desktop.PodmanDesktop
 ```
 
 ### Office Work
-
-**[LibreOffice](https://www.libreoffice.org/)** (probably already installed):
-```bash
-sudo dnf install -y libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw
-```
 
 **[OnlyOffice](https://www.onlyoffice.com/)** (better MS Office compatibility):
 ```bash
@@ -591,7 +589,7 @@ flatpak install -y flathub com.mattjakeman.ExtensionManager
 **Terminal Transparency** it's just better with it for me:
 
 ```bash
-gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$PTYXIS_PROFILE/ opacity .85
+gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$PTYXIS_PROFILE/ opacity .90
 ```
 
 **My must-have extensions:** Its Just my personal preference do what you want :)
