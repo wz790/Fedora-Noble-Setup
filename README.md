@@ -153,40 +153,77 @@ sudo dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.co
 
 ## 🎮 Graphics Drivers
 
-### NVIDIA (The Tricky One)
+# NVIDIA (The Tricky One)
 
 NVIDIA on Linux is... complicated. This works most of the time, but if you have issues, welcome to the club.
 
 **Before you start:**
-- Turn off Secure Boot in your BIOS (or learn to sign kernel modules - your choice)
+- Turn off Secure Boot in your BIOS (or learn to sign kernel modules – your choice)
 - Make sure everything is updated and rebooted
 
 ```bash
-# Install build tools
-sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
-
-# If you have RTX 40 series or newer, enable open kernel modules
-sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
-
-# Install the drivers
-sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-
-# Now wait. Seriously, this takes 5-15 minutes
-# You can watch the progress with: sudo journalctl -f -u akmods
-
-# Reboot when it's done
+# Update and reboot first
+sudo dnf update -y
 sudo reboot
 
-# Check if it worked
+# Install kernel headers and dev tools
+sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
+
+# Enable RPM Fusion (if not already)
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+```
+
+**Special Note for RTX 4000 and Newer Series:** If you're using a 4000 or 5000 series GPU (e.g. 4060, 4080, 5090), Fedora needs a build macro set before installing the driver. This enables the open kernel module.
+
+```bash
+# Set open kernel module macro (one-time step)
+sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+```
+
+Install the NVIDIA driver:
+```bash
+sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+```
+
+**Now wait.** Seriously. It takes 5–15 minutes to build the module.
+
+You can monitor progress with:
+```bash
+sudo journalctl -f -u akmods
+```
+
+Once done:
+```bash
+sudo reboot
+```
+
+Check if it worked:
+```bash
 nvidia-smi
 ```
 
+---
+
 **If it doesn't work:**
+
 ```bash
 # Force rebuild and try again
 sudo akmods --force --kernels $(uname -r)
 sudo reboot
 ```
+
+**Extra Notes:**
+- **Secure Boot:** The NVIDIA module isn't signed by default. Either disable Secure Boot or manually sign the module.
+- **5000 Series (May 2025):** Fedora 42's live installer lacks proper Nouveau support for 5000 series GPUs. You might get stuck in 800×600 resolution during install, which can break the UI.
+- **Manual rebuilds:** After kernel updates, especially on newer GPUs, you might need to run:
+  ```bash
+  sudo akmods --kernels $(uname -r) --rebuild
+  sudo reboot
+  ```
+
+If you're stuck in 800×600, a black screen, or land in a terminal (tty) instead of your desktop, the NVIDIA module probably didn't build correctly. Use an older kernel from GRUB > Advanced Options and rerun the rebuild commands.
+
 
 ### AMD & Intel (The Easy Ones)
 
