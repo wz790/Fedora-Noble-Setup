@@ -289,7 +289,7 @@ Firefox needs a little help with H.264 videos.
 sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 
 # Enable the Cisco repo
-sudo dnf config-manager --set-enabled fedora-cisco-openh264
+sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 sudo dnf update -y
 ```
 
@@ -489,9 +489,11 @@ That's it. Seriously. Most Windows games just work now.
 
 **[Brave](https://brave.com/)** (blocks ads, pretty fast):
 ```bash
-sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-sudo dnf install -y brave-browser
+sudo dnf install dnf-plugins-core
+
+sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+
+sudo dnf install brave-browser
 ```
 
 **[Vivaldi](https://vivaldi.com/)** (tons of customization options):
