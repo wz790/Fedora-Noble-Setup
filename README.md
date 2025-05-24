@@ -297,7 +297,7 @@ sudo systemctl disable NetworkManager-wait-online.service
 
 ### Better Battery Life
 
-Fedora's power management is pretty good, but if you want more control:
+Fedora's power management is pretty good, but if you want more control consider [TLP](https://github.com/linrunner/TLP):
 
 ```bash
 #First Stop the Power Profiles Daemon
@@ -393,7 +393,7 @@ dig A example.com @127.0.0.1
 
 ### System Snapshots
 
-If you're using Btrfs (default in newer Fedora), you can take snapshots.
+If you're using Btrfs (default in newer Fedora), you can take snapshots with [btrfs assistant](https://gitlab.com/btrfs-assistant/btrfs-assistant).
 
 ```bash
 sudo dnf install -y btrfs-assistant btrbk snapper
@@ -411,7 +411,7 @@ sudo systemctl enable --now snapper-cleanup.timer
 
 ### Personal Files
 
-Use Déjà Dup for your documents, photos, etc.
+Use [Déjà Dup](https://gitlab.gnome.org/World/deja-dup) for your documents, photos, etc.
 
 ```bash
 # Install it
@@ -427,7 +427,7 @@ flatpak install -y flathub org.gnome.DejaDup
 
 ### Steam and Gaming
 
-Steam works great on Fedora thanks to Proton.
+[Steam](https://store.steampowered.com/) works great on Fedora thanks to Proton.
 
 ```bash
 sudo dnf install -y steam
@@ -439,14 +439,14 @@ That's it. Seriously. Most Windows games just work now.
 
 ### Browsers
 
-**Brave** (blocks ads, pretty fast):
+**[Brave](https://brave.com/)** (blocks ads, pretty fast):
 ```bash
 sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 sudo dnf install -y brave-browser
 ```
 
-**Vivaldi** (tons of customization options):
+**[Vivaldi](https://vivaldi.com/)** (tons of customization options):
 ```bash
 sudo dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 sudo rpm --import https://repo.vivaldi.com/archive/linux_signing_key.pub
@@ -455,26 +455,26 @@ sudo dnf install -y vivaldi-stable
 
 ### Development
 
-**VS Code:**
+**[VS Code](https://code.visualstudio.com/):**
 ```bash
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 sudo dnf install -y code
 ```
 
-**Git:**
+**[Git](https://git-scm.com/):**
 ```bash
 sudo dnf install -y git
 ```
 
-**Containers (Podman is better than Docker, fight me):**
+**Containers ([Podman](https://podman.io/) is better than Docker, fight me):**
 ```bash
 sudo dnf install -y podman podman-compose podman-docker
 ```
 
 ### Office Work
 
-**LibreOffice** (probably already installed):
+**[LibreOffice](https://www.libreoffice.org/)** (probably already installed):
 ```bash
 sudo dnf install -y libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw
 ```
