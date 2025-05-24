@@ -588,11 +588,18 @@ sudo dnf install gnome-themes-extra
 flatpak install -y flathub com.mattjakeman.ExtensionManager
 ```
 
+**Terminal Transparency** it's just better with it for me:
+
+```bash
+gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$PTYXIS_PROFILE/ opacity .85
+```
+
 **My must-have extensions:** Its Just my personal preference do what you want :)
 
 - [Vitals](https://extensions.gnome.org/extension/1460/vitals/) - shows CPU/RAM usage in top bar, pretty handy
 - [Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/) - makes everything look less flat and boring
 - [Dash to Dock](https://extensions.gnome.org/extension/307/dash-to-dock/) - turns the dock into something actually useful
+
 
 
 ### KDE
