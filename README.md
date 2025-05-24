@@ -266,7 +266,7 @@ sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-o
 
 sudo dnf4 group install multimedia
 sudo dnf group install -y sound-and-video
-
+```
 
 ### Hardware Acceleration
 
