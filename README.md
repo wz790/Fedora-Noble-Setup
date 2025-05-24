@@ -192,15 +192,27 @@ sudo reboot
 
 These usually just work, but let's make them work better.
 
+**Both AMD & Intel:**
 ```bash
 # Basic drivers and Vulkan support
 sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
+```
 
+**AMD:**
+```bash
 # AMD video acceleration (makes videos smoother)
 sudo dnf install -y mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld
+```
 
+**Newer Intel GPUs:**
+```bash
 # Intel video acceleration (for newer Intel GPUs)
 sudo dnf install -y intel-media-driver
+```
+**Older Intel GPUs:**
+```bash
+# Intel video acceleration (for Grandfather Intel GPUs)
+sudo dnf install libva-intel-driver
 ```
 
 ## 🎵 Making Media Work
@@ -217,9 +229,10 @@ sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
 sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav lame\* --exclude=gstreamer1-plugins-bad-free-devel
 
 # Install multimedia groups
-sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --allowerasing
-sudo dnf groupupdate -y sound-and-video --allowerasing
-```
+
+sudo dnf4 group install multimedia
+sudo dnf group install -y sound-and-video
+
 
 ### Hardware Acceleration
 
