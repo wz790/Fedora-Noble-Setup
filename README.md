@@ -396,48 +396,58 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 This encrypts your DNS queries so your ISP can't see what websites you're visiting.
 
 ```bash
-# Install dnscrypt-proxy
-sudo dnf install -y dnscrypt-proxy
+# Install cloudflared
+sudo dnf install -y cloudflared
 
-# Configure it
-sudo tee /etc/dnscrypt-proxy/dnscrypt-proxy.toml > /dev/null <<'EOF'
-listen_addresses = ['127.0.0.1:53', '[::1]:53']
-server_names = ['cloudflare']
-doh_servers = true
-dnscrypt_servers = false
-cache_size = 512
-cache_min_ttl = 2400
-cache_max_ttl = 86400
+# Create a systemd service for cloudflared
+sudo tee /etc/systemd/system/cloudflared.service > /dev/null <<'EOF'
+[Unit]
+Description=Cloudflared DNS-over-HTTPS proxy
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/cloudflared proxy-dns --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
+Restart=on-failure
+User=nobody
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
-# Enable and start the service
-sudo systemctl enable --now dnscrypt-proxy.service
+# Reload and enable the service
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable --now cloudflared
 
-# Configure systemd-resolved
+# Configure systemd-resolved to use 127.0.0.1 (cloudflared)
 sudo mkdir -p /etc/systemd/resolved.conf.d
-sudo tee /etc/systemd/resolved.conf.d/00-dnscrypt.conf > /dev/null <<'EOF'
+sudo tee /etc/systemd/resolved.conf.d/dns-over-https.conf > /dev/null <<'EOF'
 [Resolve]
-DNS=127.0.0.1#53 ::1#53
-DNSSEC=allow-downgrade
-Domains=~.
+DNS=127.0.0.1
+FallbackDNS=1.1.1.1
+DNSSEC=yes
+Cache=yes
 EOF
 
-# Restart systemd-resolved
-sudo systemctl restart systemd-resolved.service
-
-# Tell NetworkManager to stay out of DNS handling
-sudo tee /etc/NetworkManager/conf.d/01-dnscrypt-proxy.conf > /dev/null <<'EOF'
+# Tell NetworkManager to use systemd-resolved
+sudo tee /etc/NetworkManager/conf.d/dns.conf > /dev/null <<'EOF'
 [main]
-dns=none
-systemd-resolved=false
+dns=systemd-resolved
 EOF
 
-# Restart NetworkManager and dnscrypt-proxy
+# Restart services
+sudo systemctl restart cloudflared
+sudo systemctl restart systemd-resolved
 sudo systemctl restart NetworkManager
-sudo systemctl restart dnscrypt-proxy.service
 
 # Test DNS resolution
-dig A example.com @127.0.0.1
+dig +short example.com
+
+# Check current DNS status
+resolvectl status
 ```
 
 ## 💾 Backup Your Stuff
