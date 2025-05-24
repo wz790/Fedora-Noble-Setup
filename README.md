@@ -515,6 +515,21 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 sudo dnf install -y code
 ```
 
+**[JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/)** (for Rider, Android Studio, And Jetbrains I use it for Rider IDE)
+```bash
+TMP_DIR=$(mktemp -d)
+ARCHIVE_URL=$(curl -s 'https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release' \
+  | jq -r '.TBA[0].downloads.linux.link')
+curl -Lo "$TMP_DIR/toolbox.tar.gz" "$ARCHIVE_URL"
+mkdir -p "$HOME/.local/share/JetBrains/Toolbox"
+tar -xzf "$TMP_DIR/toolbox.tar.gz" --strip-components=1 -C "$HOME/.local/share/JetBrains/Toolbox"
+"$HOME/.local/share/JetBrains/Toolbox/jetbrains-toolbox" &
+```
+THEN REMOVE THE TEMP WECREATED TO INSTALL JetBrains Toolbox WITH:
+```bash
+rm -rf "$TMP_DIR"
+```
+
 **[Git](https://git-scm.com/):**
 ```bash
 sudo dnf install -y git
@@ -561,7 +576,7 @@ sudo dnf install gnome-themes-extra
 **Extension Manager is essential** Don't even think about skipping this one. Makes managing extensions actually easy:
 
 ```bash
-flatpak install flathub com.mattjakeman.ExtensionManager
+flatpak install -y flathub com.mattjakeman.ExtensionManager
 ```
 
 **My must-have extensions:** Its Just my personal preference do what you want :)
