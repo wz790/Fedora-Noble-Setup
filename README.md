@@ -479,7 +479,7 @@ sudo dnf install -y podman podman-compose podman-docker
 sudo dnf install -y libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw
 ```
 
-**OnlyOffice** (better MS Office compatibility):
+**[OnlyOffice](https://www.onlyoffice.com/)** (better MS Office compatibility):
 ```bash
 sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors.x86_64.rpm
 ```
