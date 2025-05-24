@@ -58,10 +58,13 @@ This isn't some corporate documentation. It's just me sharing what actually work
     - [Browsers](#browsers)
     - [Development](#development)
     - [Office Work](#office-work)
-11. [🧹 Keeping Things Clean](#-keeping-things-clean)
+11. [🖥️ Desktop environment](#-desktop-environment)
+    - [GNOME](#gnome)
+    - [KDE](#kde)
+12. [🧹 Keeping Things Clean](#-keeping-things-clean)
     - [Removing Bloat](#removing-bloat)
     - [System Cleanup](#system-cleanup)
-12. [👏 Thanks](#thanks)
+13. [👏 Thanks](#thanks)
 
 ---
 
@@ -533,6 +536,44 @@ sudo dnf install -y libreoffice-writer libreoffice-calc libreoffice-impress libr
 ```bash
 sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors.x86_64.rpm
 ```
+
+## 🖥️ Desktop Environment
+### GNOME
+
+**Stop GNOME Software autostart** This thing launches every boot and just sits there hogging memory. I always remove it:
+
+```bash
+sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
+```
+
+**Get GNOME Tweaks** You literally can't use GNOME without this. Need to add minimize/maximize buttons to Window? This is where you do it:
+
+```bash
+sudo dnf install gnome-tweaks
+```
+
+**Extra themes if you're into that** I stick with default but some people like options. Up to you:
+
+```bash
+sudo dnf install gnome-themes-extra
+```
+
+**Extension Manager is essential** Don't even think about skipping this one. Makes managing extensions actually easy:
+
+```bash
+flatpak install flathub com.mattjakeman.ExtensionManager
+```
+
+**My must-have extensions:** Its Just my personal preference do what you want :)
+
+- [Vitals](https://extensions.gnome.org/extension/1460/vitals/) - shows CPU/RAM usage in top bar, pretty handy
+- [Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/) - makes everything look less flat and boring
+- [Dash to Dock](https://extensions.gnome.org/extension/307/dash-to-dock/) - turns the dock into something actually useful
+
+
+### KDE
+nothing for now XD
+
 
 ## 🧹 Keeping Things Clean
 
