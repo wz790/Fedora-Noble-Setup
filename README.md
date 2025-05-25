@@ -643,7 +643,7 @@ sudo dnf clean all
 sudo dnf autoremove -y
 
 # Remove old kernels (if you have too many)
-# sudo dnf remove $(dnf repoquery --installonly --latest-limit=-2 -q)
+# sudo dnf remove $(dnf repoquery --installonly --latest-limit=-3 -q)
 ```
 
 ---
