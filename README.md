@@ -382,7 +382,7 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 
 ### Performance Tweaks (Proceed with Caution)
 
-**⚠️ WARNING:** This disables important security features. Only do this if you know what you're doing and really need the performance.
+**⚠️ WARNING:** This disables important security features. Only do this if you know what you're doing and only if you're really desperate for a bit more speed in older CPUs. On modern CPUs, you won't notice any difference anyway so don't risk with it.
 
 ```bash
 # To disable CPU mitigations (NOT recommended)
