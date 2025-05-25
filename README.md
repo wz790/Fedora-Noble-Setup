@@ -500,7 +500,7 @@ sudo dnf install -y steam
 That's it. Seriously. Most Windows games just work now.
 
 
-**Note**If you're using an NVIDIA GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue.
+**Note** If you're using an NVIDIA GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue.
 Just remove the RPM version and install the Flatpak one instead should work better and do a search how setup flatpak permissions if needed for some games or so...
 ```bash
 #Removes Steam RPM version 
