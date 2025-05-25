@@ -440,9 +440,10 @@ This encrypts your DNS queries so your ISP can't see what websites you're visiti
 
 First add the cloudflared repository with:
 ```bash
+#Add Cloudflared repository
 sudo dnf config-manager addrepo --from-repofile=https://pkg.cloudflare.com/cloudflared.repo
 ```
-
+Then do The rest:
 ```bash
 # Install cloudflared
 sudo dnf install -y cloudflared
