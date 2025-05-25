@@ -42,7 +42,7 @@ This isn't some corporate documentation. It's just me sharing what actually work
    - [Archive Support](#archive-support)
    - [Microsoft Fonts](#microsoft-fonts-unfortunately-still-needed)
    - [AppImage Support](#appimage-support)
-   - [Flatpak Auto-Updates](#️-flatpak-auto-updates)
+   - [Flatpak Auto-Updates](#flatpak-auto-updates)
 6. [⚡ Making Things Faster](#-making-things-faster)
    - [Faster Boots](#faster-boots)
    - [Better Battery Life](#better-battery-life)
