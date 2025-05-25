@@ -547,7 +547,7 @@ mkdir -p "$HOME/.local/share/JetBrains/Toolbox"
 tar -xzf "$TMP_DIR/toolbox.tar.gz" --strip-components=1 -C "$HOME/.local/share/JetBrains/Toolbox"
 "$HOME/.local/share/JetBrains/Toolbox/jetbrains-toolbox" &
 ```
-THEN REMOVE THE TEMP WECREATED TO INSTALL JetBrains Toolbox WITH:
+Then you can remove the TEMP we created to install JetBrains Toolbox with:
 ```bash
 rm -rf "$TMP_DIR"
 ```
