@@ -438,6 +438,11 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 
 This encrypts your DNS queries so your ISP can't see what websites you're visiting.
 
+First add the cloudflared repository with:
+```bash
+sudo dnf config-manager addrepo --from-repofile=https://pkg.cloudflare.com/cloudflared.repo
+```
+
 ```bash
 # Install cloudflared
 sudo dnf install -y cloudflared
