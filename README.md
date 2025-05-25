@@ -280,7 +280,8 @@ This makes video playback use your GPU instead of hammering your CPU.
 ```bash
 # Install VA-API stuff
 sudo dnf install -y ffmpeg-libs libva libva-utils
-
+```
+```bash
 # If you have NVIDIA, add this too
 sudo dnf install -y nvidia-vaapi-driver
 ```
