@@ -509,9 +509,8 @@ sudo dnf install brave-browser
 
 **[Vivaldi](https://vivaldi.com/)** (tons of customization options):
 ```bash
-sudo dnf -y install wget
-wget https://repo.vivaldi.com/archive/vivaldi-fedora.repo
-sudo dnf config-manager addrepo --from-repofile=./vivaldi-fedora.repo
+sudo dnf config-manager addrepo --from-repofile=<(curl -s https://repo.vivaldi.com/archive/vivaldi-fedora.repo)
+sudo rpm --import https://repo.vivaldi.com/archive/linux_signing_key.pub
 sudo dnf install -y vivaldi-stable
 ```
 
