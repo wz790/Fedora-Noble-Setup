@@ -57,6 +57,7 @@ This isn't some corporate documentation. It's just me sharing what actually work
 10. [🌟 Apps I Actually Use](#-apps-i-actually-use)
     - [Browsers](#browsers)
     - [Development](#development)
+    - [Multimedia](#multimedia)
     - [Office Work](#office-work)
 11. [🖥️ Desktop environment](#-desktop-environment)
     - [GNOME](#gnome)
@@ -549,6 +550,15 @@ sudo dnf install -y git
 sudo dnf install -y podman podman-compose podman-docker
 #Podmman GUI
 flatpak install flathub io.podman_desktop.PodmanDesktop
+```
+
+### Multimedia
+
+
+**[VLC](https://www.videolan.org/vlc/)** (VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else):
+```bash
+# Install VLC
+sudo dnf install vlc
 ```
 
 ### Office Work
