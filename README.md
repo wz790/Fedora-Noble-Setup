@@ -391,28 +391,29 @@ sudo systemctl disable NetworkManager-wait-online.service
 
 ### Better Battery Life
 
-Fedora's power management is pretty good, but if you want more control consider [TLP](https://github.com/linrunner/TLP):
+Fedora's power management is pretty good, but I personally prefer [TLP](https://github.com/linrunner/TLP)For my Laptop:
 
-**⚠️ Warning though**:don’t mess with this unless you know what you're doing my Frindo ;) 
+**⚠️ Warning though**: don’t mess with this unless you know what you're doing my Frindo ;) 
 
 ```bash
-#First Stop the Power Profiles Daemon
-sudo systemctl stop power-profiles-daemon.service
+#Add TLP Repository 
+sudo dnf install https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc$(rpm -E %fedora).noarch.rpm
 
-#then Mask it because it make conflict with TLP
-sudo systemctl mask power-profiles-daemon.service
+# Install TLP
+sudo dnf install tlp tlp-rdw
 
-# Install TLP (only if you need it)
-sudo dnf install -y tlp tlp-rdw
+#Remove conflicting power profile demone
+sudo dnf remove tuned tuned-ppd
 
-# Enable it
-sudo systemctl enable --now tlp
+# Enable TLP service 
+sudo systemctl enable tlp.service
 
-# For analyzing power usage
-sudo dnf install -y powertop
+#Mask the following services to avoid conflicts with TLP’s Radio Device Switching options
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
+
 ```
-
 Only install TLP if Fedora's built-in power management isn't working for you.
+
 
 ### Dual Boot Time Fix
 
