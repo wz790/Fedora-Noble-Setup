@@ -576,7 +576,7 @@ sudo dnf install -y vivaldi-stable
 
 ### Development
 
-**[VS Code](https://code.visualstudio.com/):**(Spy software From the other world vs Codium wich is vs code without telemetry is the recommended one but I use the vs code anyway)
+**[VS Code](https://code.visualstudio.com/):**(basically spy software from the other world.VSCodium which is VS Code without the telemetry that's the one I'd recommend, but I still use regular VS Code anyway)
 ```bash
 # Import Microsoft GPG key
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
