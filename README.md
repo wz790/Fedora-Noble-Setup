@@ -150,7 +150,7 @@ flatpak update --appstream
 
 ### [Terra](https://terra.fyralabs.com/) Repository (If You're Feeling Adventurous Like Finn and Jacke)
 
-**Note ⚠️: Add it only if you know what you're doing (At you own Risk)**
+**⚠️ Note: Add it only if you know what you're doing (At you own Risk)**
 
 Terra has some community packages that aren't in the main repos. It's optional but sometimes useful.
 
