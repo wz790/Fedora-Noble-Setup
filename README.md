@@ -391,7 +391,7 @@ sudo systemctl disable NetworkManager-wait-online.service
 
 ### Better Battery Life
 
-Fedora's power management is pretty good, but I personally prefer [TLP](https://github.com/linrunner/TLP)For my Laptop:
+Fedora's power management is pretty good, but I personally prefer [TLP](https://github.com/linrunner/TLP) For my Laptop:
 
 **⚠️ Warning though**: don’t mess with this unless you know what you're doing my Frindo ;) 
 
