@@ -560,14 +560,14 @@ flatpak install flathub com.valvesoftware.Steam
 
 ### Browsers
 
-**[Brave](https://brave.com/)** (blocks ads, pretty fast):
+**[Brave](https://brave.com/):** blocks ads, pretty fast.
 ```bash
 sudo dnf install dnf-plugins-core
 sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 sudo dnf install brave-browser
 ```
 
-**[Vivaldi](https://vivaldi.com/)** (tons of customization options):
+**[Vivaldi](https://vivaldi.com/):** tons of customization options.
 ```bash
 sudo dnf config-manager addrepo --from-repofile=<(curl -s https://repo.vivaldi.com/archive/vivaldi-fedora.repo)
 sudo rpm --import https://repo.vivaldi.com/archive/linux_signing_key.pub
@@ -576,7 +576,7 @@ sudo dnf install -y vivaldi-stable
 
 ### Development
 
-**[VS Code](https://code.visualstudio.com/):**(basically spy software from the other world.VSCodium which is VS Code without the telemetry that's the one I'd recommend, but I still use regular VS Code anyway)
+**[VS Code](https://code.visualstudio.com/):** basically spy software from the other world.VSCodium which is VS Code without the telemetry that's the one I'd recommend, but I still use regular VS Code anyway.
 ```bash
 # Import Microsoft GPG key
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -586,7 +586,7 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 sudo dnf install -y code
 ```
 
-**[JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/)** (Personally I use it for Rider and Android Studio,but you can find other JetBrains IDEs on it):
+**[JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/):** Personally I use it for Rider and Android Studio,but you can find other JetBrains IDEs on it.
 ```bash
 # Create temporary directory for download process
 TMP_DIR=$(mktemp -d)
@@ -610,7 +610,8 @@ rm -rf "$TMP_DIR"
 sudo dnf install -y git
 ```
 
-**Containers ([Podman](https://podman.io/) is better than Docker, fight me):**
+**Containers:**
+[Podman](https://podman.io/) is better than Docker, fight me :).
 ```bash
 #Podman core
 sudo dnf install -y podman podman-compose podman-docker
@@ -621,7 +622,7 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 ### Multimedia
 
 
-**[VLC](https://www.videolan.org/vlc/)** (VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else):
+**[VLC](https://www.videolan.org/vlc/):** VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else.
 ```bash
 # Install VLC
 sudo dnf install vlc
@@ -629,7 +630,7 @@ sudo dnf install vlc
 
 ### Office Work
 
-**[OnlyOffice](https://www.onlyoffice.com/)** (better MS Office compatibility):
+**[OnlyOffice](https://www.onlyoffice.com/):** better For MS Office compatibility.
 ```bash
 sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors.x86_64.rpm
 ```
