@@ -148,9 +148,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak update --appstream
 ```
 
-### Terra Repository (If You're Feeling Adventurous)
+### [Terra](https://terra.fyralabs.com/) Repository (If You're Feeling Adventurous Like Finn and Jacke)
 
 **Note ⚠️: Add it only if you know what you're doing At you own Risk**
+
 Terra has some community packages that aren't in the main repos. It's optional but sometimes useful.
 
 ```bash
