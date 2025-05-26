@@ -576,26 +576,33 @@ sudo dnf install -y vivaldi-stable
 
 ### Development
 
-**[VS Code](https://code.visualstudio.com/):**
+**[VS Code](https://code.visualstudio.com/):**(Spy software From the other world vs Codium wich is vs code without telemetry is the recommended one but I use the vs code anyway)
 ```bash
+# Import Microsoft GPG key
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+# Add VS Code repository to system packages
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+# Install VS Code
 sudo dnf install -y code
 ```
 
-**[JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/)** (for Rider, Android Studio, And Jetbrains I use it for Rider IDE)
+**[JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/)** (Personally I use it for Rider and Android Studio,but you can find other JetBrains IDEs on it):
 ```bash
+# Create temporary directory for download process
 TMP_DIR=$(mktemp -d)
+# Fetch latest JetBrains Toolbox download URL from official site
 ARCHIVE_URL=$(curl -s 'https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release' \
   | jq -r '.TBA[0].downloads.linux.link')
+# Download the toolbox archive to temporary directory
 curl -Lo "$TMP_DIR/toolbox.tar.gz" "$ARCHIVE_URL"
+# Create installation directory in local share fold for JetBrains Toolbox
 mkdir -p "$HOME/.local/share/JetBrains/Toolbox"
+# Extract toolbox
 tar -xzf "$TMP_DIR/toolbox.tar.gz" --strip-components=1 -C "$HOME/.local/share/JetBrains/Toolbox"
-"$HOME/.local/share/JetBrains/Toolbox/jetbrains-toolbox" &
-```
-Then you can remove the TEMP we created to install JetBrains Toolbox with:
-```bash
+# Clean up temporary files we did for the installation
 rm -rf "$TMP_DIR"
+# Launch JetBrains Toolbox
+"$HOME/.local/share/JetBrains/Toolbox/jetbrains-toolbox" &
 ```
 
 **[Git](https://git-scm.com/):**
