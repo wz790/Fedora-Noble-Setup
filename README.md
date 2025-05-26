@@ -605,7 +605,7 @@ rm -rf "$TMP_DIR"
 "$HOME/.local/share/JetBrains/Toolbox/jetbrains-toolbox" &
 ```
 
-**[Git](https://git-scm.com/)** Mostly installed but let confirm:
+**[Git](https://git-scm.com/)** Mostly installed but let's confirm:
 ```bash
 sudo dnf install -y git
 ```
@@ -623,7 +623,7 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 ### Multimedia
 
 
-**[VLC](https://www.videolan.org/vlc/):** VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else.
+**[VLC](https://www.videolan.org/vlc/)** VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else:
 ```bash
 # Install VLC
 sudo dnf install vlc
@@ -631,7 +631,7 @@ sudo dnf install vlc
 
 ### Office Work
 
-**[OnlyOffice](https://www.onlyoffice.com/):** better For MS Office compatibility.
+**[OnlyOffice](https://www.onlyoffice.com/)** better For MS Office compatibility:
 ```bash
 sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors.x86_64.rpm
 ```
