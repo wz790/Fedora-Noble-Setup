@@ -648,6 +648,7 @@ sudo dnf install -y https://download.onlyoffice.com/install/desktop/editors/linu
 ```bash
 sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
 ```
+**Note:** Removing GNOME Software from autostart disables update notifications (you'll need to open Software manually to check for updates) and stops automatic Flatpak updates. You'll need to update Flatpaks manually or use the auto-update methods mentioned above.
 
 **Get GNOME Tweaks** You literally can't use GNOME without this. Need to add minimize/maximize buttons to Window? This is where you do it:
 
