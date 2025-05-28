@@ -128,7 +128,7 @@ This is purely cosmetic but makes you feel more at home. Pick something fun!
 
 ```bash
 # Replace with whatever you want
-sudo hostnamectl set-hostname my-awesome-fedora-box
+sudo hostnamectl set-hostname hungry-beast
 ```
 
 ## 📦 Getting More Software
