@@ -150,7 +150,8 @@ flatpak update --appstream
 
 ### [Terra](https://terra.fyralabs.com/) Repository (If You're Feeling Adventurous Like Finn and Jacke)
 
-**⚠️ Note: Add it only if you know what you're doing (At your own Risk)**
+> [!Caution]
+> ⚠️ Add it only if you know what you're doing (At your own Risk)
 
 Terra has some community packages that aren't in the main repos. It's optional but sometimes useful.
 
@@ -179,7 +180,10 @@ sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-rele
 sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 ```
 
-**Special Note for RTX 4000 and Newer Series:** If you're using a 4000 or 5000 series GPU (e.g. 4060, 4080, 5090), Fedora needs a build macro set before installing the driver. This enables the open kernel module.
+> [!NOTE]
+> Special Note for RTX 4000 and Newer Series:
+> If you're using a 4000 or 5000 series GPU (e.g. 4060, 4080, 5090), Fedora needs a build macro set before installing the driver. This enables the open kernel module.
+
 
 ```bash
 # Set open kernel module macro (one-time step)
@@ -217,15 +221,14 @@ nvidia-smi
 sudo akmods --force --kernels $(uname -r)
 sudo reboot
 ```
-
-**Extra Notes:**
-- **Secure Boot:** The NVIDIA module isn't signed by default. Either disable Secure Boot or manually sign the module.
-- **5000 Series (May 2025):** Fedora 42's live installer lacks proper Nouveau support for 5000 series GPUs. You might get stuck in 800×600 resolution during install, which can break the UI.
-- **Manual rebuilds:** After kernel updates, especially on newer GPUs, you might need to run:
+> [!NOTE]
+> - **Secure Boot:** The NVIDIA module isn't signed by default. Either disable Secure Boot or manually sign the module.
+> - **5000 Series (May 2025):** Fedora 42's live installer lacks proper Nouveau support for 5000 series GPUs. You might get stuck in 800×600 resolution during install, which can break the UI.
+> - **Manual rebuilds:** After kernel updates, especially on newer GPUs, you might need to run:
   ```bash
   sudo akmods --kernels $(uname -r) --rebuild
   sudo reboot
-  ```
+  ````
 
 If you're stuck in 800×600, a black screen, or land in a terminal (tty) instead of your desktop, the NVIDIA module probably didn't build correctly. Use an older kernel from GRUB > Advanced Options and rerun the rebuild commands.
 
@@ -393,7 +396,8 @@ sudo systemctl disable NetworkManager-wait-online.service
 
 Fedora's power management is pretty good, but I personally prefer [TLP](https://github.com/linrunner/TLP) For my Laptop:
 
-**⚠️ Warning though**: don’t mess with this unless you know what you're doing my Frindo ;) 
+> [!Caution]
+> ⚠️ don’t mess with this unless you know what you're doing my Frindo ;) 
 
 ```bash
 #Add TLP Repository 
@@ -426,7 +430,8 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 
 ### Performance Tweaks (Proceed with Caution)
 
-**⚠️ WARNING:** This disables important security features. Only do this if you know what you're doing and only if you're really desperate for a bit more speed in older CPUs. On modern CPUs, you won't notice any difference anyway so don't risk with it.
+> [!Caution]
+> ⚠️ This disables important security features. Only do this if you know what you're doing and only if you're really desperate for a bit more speed in older CPUs. On modern CPUs, you won't notice any difference anyway so don't risk with it.
 
 ```bash
 # To disable CPU mitigations (NOT recommended)
@@ -549,9 +554,10 @@ sudo dnf install -y steam
 
 That's it. Seriously. Most Windows games just work now.
 
-
-**Note** If you're using an NVIDIA Newer GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue.
+> [!NOTE]
+> If you're using an NVIDIA Newer GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue.
 Just remove the RPM version and install the Flatpak one instead should work better and do a search how setup flatpak permissions if needed for some games or so...
+
 ```bash
 #Removes Steam RPM version 
 sudo dnf remove steam
@@ -690,7 +696,8 @@ nothing for now XD
 
 ### Removing Bloat
 
-**Be careful here.** Only remove stuff you're sure you don't need.
+> [!Caution]
+> **Be careful here.** Only remove stuff you're sure you don't need.
 
 ```bash
 # See what's installed
