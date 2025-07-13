@@ -403,11 +403,11 @@ Fedora's power management is pretty good, but I personally prefer [TLP](https://
 #Add TLP Repository 
 sudo dnf install https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc$(rpm -E %fedora).noarch.rpm
 
+#Remove conflicting power profiles daemon
+sudo dnf remove tuned tuned-ppd
+
 # Install TLP
 sudo dnf install tlp tlp-rdw
-
-#Remove conflicting power profile demone
-sudo dnf remove tuned tuned-ppd
 
 # Enable TLP service 
 sudo systemctl enable tlp.service
