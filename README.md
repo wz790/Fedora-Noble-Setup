@@ -183,12 +183,12 @@ sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfre
 > [!NOTE]
 > Special Note for RTX 4000 and Newer Series:
 > If you're using a 4000 or 5000 series GPU (e.g. 4060, 4080, 5090), Fedora needs a build macro set before installing the driver. This enables the open kernel module.
-
-
-```bash
-# Set open kernel module macro (one-time step)
-sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
-```
+>
+>
+> ```bash
+> # Set open kernel module macro (one-time step)
+> sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+> ```
 
 Install the NVIDIA driver:
 ```bash
@@ -225,10 +225,10 @@ sudo reboot
 > - **Secure Boot:** The NVIDIA module isn't signed by default. Either disable Secure Boot or manually sign the module.
 > - **5000 Series (May 2025):** Fedora 42's live installer lacks proper Nouveau support for 5000 series GPUs. You might get stuck in 800×600 resolution during install, which can break the UI.
 > - **Manual rebuilds:** After kernel updates, especially on newer GPUs, you might need to run:
-  ```bash
-  sudo akmods --kernels $(uname -r) --rebuild
-  sudo reboot
-  ````
+>  ```bash
+>  sudo akmods --kernels $(uname -r) --rebuild
+>  sudo reboot
+>  ````
 
 If you're stuck in 800×600, a black screen, or land in a terminal (tty) instead of your desktop, the NVIDIA module probably didn't build correctly. Use an older kernel from GRUB > Advanced Options and rerun the rebuild commands.
 
@@ -557,14 +557,14 @@ That's it. Seriously. Most Windows games just work now.
 > [!NOTE]
 > If you're using an NVIDIA Newer GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue.
 Just remove the RPM version and install the Flatpak one instead should work better and do a search how setup flatpak permissions if needed for some games or so...
-
-```bash
-#Removes Steam RPM version 
-sudo dnf remove steam
-
-#Install steam Flatpak version 
-flatpak install flathub com.valvesoftware.Steam
-```
+>
+> ```bash
+> #Removes Steam RPM version 
+> sudo dnf remove steam
+>
+> #Install steam Flatpak version 
+> flatpak install flathub com.valvesoftware.Steam
+> ```
 
 ## 🌟 Apps I Actually Use
 
