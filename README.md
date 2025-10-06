@@ -338,7 +338,7 @@ Some apps only come as AppImages. This makes them work.
 
 ```bash
 # Install FUSE
-sudo dnf install -y fuse libfuse2
+sudo dnf install -y fuse fuse-libs
 
 # Optional: AppImage manager (actually pretty useful)
 flatpak install -y flathub it.mijorus.gearlever
