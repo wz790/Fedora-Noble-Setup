@@ -522,63 +522,7 @@ sudo dnf install -y cloudflared
 ```
 Then do The rest:
 ```bash
-# Create a systemd service for cloudflared
-sudo tee /etc/systemd/system/cloudflared.service > /dev/null <<'EOF'
-[Unit]
-Description=Cloudflared DNS-over-HTTPS proxy
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-User=cloudflared
-Group=cloudflared
-ExecStart=/usr/bin/cloudflared proxy-dns --address 127.0.0.1 --port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
-Restart=on-failure
-RestartSec=5
-NoNewPrivileges=true
-AmbientCapabilities=CAP_NET_BIND_SERVICE
-CapabilityBoundingSet=CAP_NET_BIND_SERVICE
-ProtectSystem=strict
-ProtectHome=true
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# Create dedicated user for cloudflared (safer than 'nobody')
-sudo useradd -r -s /usr/sbin/nologin -d /var/lib/cloudflared -m cloudflared 2>/dev/null || true
-
-# Reload and enable the service
-sudo systemctl daemon-reload
-sudo systemctl enable --now cloudflared
-
-# Configure systemd-resolved to use 127.0.0.1:5053 (cloudflared)
-sudo mkdir -p /etc/systemd/resolved.conf.d
-sudo tee /etc/systemd/resolved.conf.d/dns-over-https.conf > /dev/null <<'EOF'
-[Resolve]
-DNS=127.0.0.1:5053
-FallbackDNS=1.1.1.1 1.0.0.1
-DNSSEC=yes
-Cache=yes
-EOF
-
-# Tell NetworkManager to use systemd-resolved
-sudo mkdir -p /etc/NetworkManager/conf.d
-sudo tee /etc/NetworkManager/conf.d/dns.conf > /dev/null <<'EOF'
-[main]
-dns=systemd-resolved
-EOF
-
-# Restart services
-sudo systemctl restart cloudflared
-sudo systemctl restart systemd-resolved
-sudo systemctl restart NetworkManager
-
-# Test DNS resolution
-dig +short @127.0.0.1 -p 5053 example.com
-
-# Check current DNS status
-resolvectl status
+I will change it later.
 ```
 
 <details>
