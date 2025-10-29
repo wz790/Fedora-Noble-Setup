@@ -45,19 +45,44 @@ This isn't some corporate documentation. It's just me sharing what actually work
   - [Firmware Updates](#firmware-updates)
   - [Give Your Computer a Name](#give-your-computer-a-name)
 - [📦 Getting More Software](#-getting-more-software)
+  - [Flathub Setup](#flathub-setup)
 - [🎮 Graphics Drivers](#-graphics-drivers)
   - [NVIDIA (The Tricky One)](#nvidia-the-tricky-one)
   - [AMD & Intel (The Easy Ones)](#amd--intel-the-easy-ones)
 - [🎵 Making Media Work](#-making-media-work)
+  - [Video Codecs (So Everything Plays)](#video-codecs-so-everything-plays)
+  - [Hardware Acceleration](#hardware-acceleration)
+  - [Firefox Video Fix](#firefox-video-fix)
 - [🔧 Useful Stuff](#-useful-stuff)
+  - [Archive Support](#archive-support)
+  - [Microsoft Fonts (Unfortunately Still Needed)](#microsoft-fonts-unfortunately-still-needed)
+  - [AppImage Support](#appimage-support)
+  - [Flatpak Auto-Updates](#flatpak-auto-updates)
 - [⚡ Making Things Faster](#-making-things-faster)
+  - [Faster Boots](#faster-boots)
+  - [Better Battery Life](#better-battery-life)
+  - [Dual Boot Time Fix](#dual-boot-time-fix)
 - [🔒 Security Stuff](#-security-stuff)
+  - [Encrypted DNS (Optional but Cool)](#encrypted-dns-optional-but-cool)
 - [💾 Backup Your Stuff](#-backup-your-stuff)
+  - [System Snapshots](#system-snapshots)
+  - [Personal Files](#personal-files)
 - [🎮 Gaming Setup](#-gaming-setup)
+  - [Steam and Gaming](#steam-and-gaming)
+  - [Lutris](#lutris)
+  - [MangoHud](#mangohud)
 - [🌟 Apps I Actually Use](#-apps-i-actually-use)
+  - [Browsers](#browsers)
+  - [Development](#development)
+  - [Containers](#containers)
+  - [Multimedia](#multimedia)
+  - [Office Work](#office-work)
+  - [System Tools](#system-tools)
 - [🖥️ Desktop Environment](#️-desktop-environment)
+  - [GNOME](#gnome)
+  - [KDE Plasma](#kde-plasma)
 - [🧹 Keeping Things Clean](#-keeping-things-clean)
-
+  - [System Cleanup](#system-cleanup)
 </details>
 
 ---
@@ -66,7 +91,7 @@ This isn't some corporate documentation. It's just me sharing what actually work
 
 ### RPM Fusion - The Good Stuff
 
-Okay, first thing Fedora ships pretty bare-bones because of legal reasons. RPM Fusion is where all the actually useful stuff lives (codecs, drivers, etc.). You want this.
+Okay, first thing Fedora ships pretty bare-bones because of legal reasons. [RPM](https://rpmfusion.org/) Fusion is where all the actually useful stuff lives (codecs, drivers, etc.). You want this.
 
 ```bash
 # Get the free repository (most stuff you need)
@@ -147,7 +172,7 @@ sudo hostnamectl set-hostname hungry-beast
 
 ### Flathub Setup
 
-Fedora comes with a neutered version of Flatpak. Flathub is where the actual apps are.
+Fedora comes with a neutered version of [Flatpak](https://flatpak.org/). [Flathub](https://flathub.org/) is where the actual apps are.
 
 ```bash
 # Remove the limited Fedora repo
@@ -160,16 +185,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak update --appstream
 ```
 
-<div align="center">
-
-| 📦 Package Manager | 🎯 Use Case | 🔍 Command |
-|:---:|:---:|:---:|
-| **DNF** | Mostly system packages | `sudo dnf install package-name` |
-| **Flatpak** | Mostly desktop apps | `flatpak install app-name` |
-| **Snap** | Don't. Just don't. | ❌ |
-
-</div>
-
 ---
 
 ## 🎮 Graphics Drivers
@@ -180,9 +195,9 @@ flatpak update --appstream
 
 #### 📋 Before you start:
 
-- [ ] Turn off **Secure Boot** in your BIOS (or learn to sign kernel modules your choice ;). )
-- [ ] Make sure everything is **updated and rebooted**
-- [ ] Have a backup plan (seriously)
+- Turn off **Secure Boot** in your BIOS (or learn to sign kernel modules your choice ;). )
+- Make sure everything is **updated and rebooted**
+- Have a backup plan (seriously)
 
 ```bash
 # Install kernel headers and dev tools
@@ -389,7 +404,7 @@ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore
 sudo fc-cache -fv
 ```
 
-> 😤 **Rant**: Yes, we still need Arial and Times New Roman. Blame Microsoft.
+> Yes, we still need Arial and Times New Roman. Blame Microsoft ;).
 
 ---
 
@@ -400,8 +415,9 @@ Some apps only come as AppImages. This makes them work.
 ```bash
 # Install FUSE
 sudo dnf install -y fuse fuse-libs
-
-# Optional: AppImage manager (actually pretty useful)
+```
+Optional: AppImage manager (actually pretty useful)
+```bash
 flatpak install -y flathub it.mijorus.gearlever
 ```
 
@@ -468,8 +484,9 @@ sudo systemctl disable NetworkManager-wait-online.service
 
 > 🚨 **CAUTION**: Don't mess with this unless you know what you're doing, my friendo ;)
 
-Fedora's power management is pretty good, but I personally prefer TLP for my laptop:
+Fedora's power management is pretty good, but I personally prefer [TLP](https://linrunner.de/tlp/) for my laptop:
 
+**Official TLP docs**: [TLP Documentation](https://linrunner.de/tlp/introduction.html)
 ```bash
 # Add TLP Repository 
 sudo dnf install -y \
@@ -512,34 +529,46 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 This encrypts your DNS queries so your ISP can't see what websites you're visiting.
 
 
-First add the cloudflared repository and install it with:
+**Install the packages:**
 ```bash
-#Add Cloudflared repository
-sudo dnf config-manager addrepo --from-repofile=https://pkg.cloudflare.com/cloudflared.repo
-
-# Install cloudflared
-sudo dnf install -y cloudflared
+sudo dnf install dnsconfd
 ```
-Then do The rest:
+
+**Stop and disable systemd-resolved to avoid conflicts:**
 ```bash
-I will change it later.
+sudo systemctl disable --now systemd-resolved
+sudo systemctl mask systemd-resolved
+sudo systemctl enable --now dnsconfd
+```
+
+**Configure NetworkManager to use Cloudflare's DNS:**
+```bash
+sudo mkdir -p /etc/NetworkManager/conf.d
+sudo tee /etc/NetworkManager/conf.d/global-dot.conf > /dev/null <<EOF
+[main]
+dns=dnsconfd
+
+[global-dns]
+resolve-mode=exclusive
+
+[global-dns-domain-*]
+servers=dns+tls://1.1.1.1#one.one.one.one
+EOF
+
+sudo systemctl restart NetworkManager
 ```
 
 <details>
 <summary>🔍 How to verify it's working</summary>
 
-After setup, run:
 
-```bash
-resolvectl status
-```
+Test that DNS actually works:
 
-Look for:
-- `Current DNS Server: 127.0.0.1:5053`
-- `DNSSEC setting: yes`
+got to https://one.one.one.one/help/ and check the results.
 
-If you see these, you're good!
+You should see **"Using DNS over TLS (DoT) - Yes"** 
 
+If it say Yes, you're all set!
 </details>
 
 ---
@@ -573,11 +602,14 @@ sudo systemctl enable --now snapper-cleanup.timer
 
 Use Déjà Dup for your documents, photos, etc.
 
+From fedora repos
 ```bash
 # Install it
 sudo dnf install -y deja-dup
+```
 
-# Or get it from Flathub
+Or get it from Flathub
+```bash
 flatpak install -y flathub org.gnome.DejaDup
 ```
 
@@ -589,7 +621,7 @@ flatpak install -y flathub org.gnome.DejaDup
 
 ### Steam and Gaming
 
-Steam works great on Fedora thanks to Proton.
+[Steam](https://store.steampowered.com/) works great on Fedora thanks to Proton.
 
 ```bash
 sudo dnf install -y steam
@@ -606,6 +638,27 @@ sudo dnf remove steam
 # Install Steam Flatpak version 
 flatpak install -y flathub com.valvesoftware.Steam
 ```
+### Lutris
+
+[Lutris](https://lutris.net/) is perfect for managing non-Steam games, emulators, and older titles.
+
+```bash
+sudo dnf install -y lutris
+```
+
+Or get the Flatpak version:
+
+```bash
+flatpak install -y flathub net.lutris.Lutris
+```
+
+### MangoHud
+
+[MangoHud](https://github.com/flightlessmango/MangoHud) is an overlay that shows FPS, CPU/GPU temps, and more.
+
+```bash
+sudo dnf install -y mangohud
+```
 
 ---
 
@@ -615,7 +668,7 @@ flatpak install -y flathub com.valvesoftware.Steam
 
 #### Brave
 
-Brave blocks ads, pretty fast:
+[Brave](https://brave.com/) blocks ads, pretty fast:
 
 ```bash
 sudo dnf install dnf-plugins-core
@@ -626,7 +679,7 @@ sudo dnf install -y brave-browser
 
 #### LibreWolf
 
-Privacy-focused Firefox fork:
+[LibreWolf](https://librewolf.net/) is privacy-focused Firefox fork:
 
 ```bash
 # Add the repo
@@ -642,7 +695,7 @@ sudo dnf install -y librewolf
 
 #### VS Code
 
-VS Code is basically spy software from the other world. VSCodium is VS Code without the telemetry – that's the one I'd recommend, but I still use regular VS Code anyway:
+[Visual Studio Code](https://code.visualstudio.com/) is basically Microsoft telemetry central, but I still use it anyway. If privacy matters, check out VSCodium instead.
 
 ```bash
 # Import Microsoft GPG key
@@ -653,6 +706,21 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 
 # Install VS Code
 sudo dnf install -y code
+```
+#### VS Codium
+
+[VSCodium](https://vscodium.com) is a community-driven, freely-licensed binary distribution of Microsoft’s editor VS Code.
+
+
+```bash
+# Add the GPG key of the repository:
+sudo rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+
+# Add VSCodium repository
+printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=download.vscodium.com\nbaseurl=https://download.vscodium.com/rpms/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg\nmetadata_expire=1h\n" | sudo tee -a /etc/yum.repos.d/vscodium.repo
+
+# Install VS Codium
+sudo dnf install codium
 ```
 
 ---
@@ -673,24 +741,64 @@ flatpak install -y flathub io.podman_desktop.PodmanDesktop
 
 ### Multimedia
 
-VLC is my go-to multimedia player, but it's totally up to you whether you use it or choose something else:
+[VLC](https://www.videolan.org/vlc/) is my go-to multimedia player, but it's totally up to you whether you use it or choose something else:
 
 ```bash
 # Install VLC
 sudo dnf install -y vlc
 ```
 
+#### OBS Studio
+
+[OBS Studio](https://obsproject.com/) for screen recording and streaming:
+
+```bash
+flatpak install -y flathub com.obsproject.Studio
+```
+
+#### Audacity
+
+[Audacity](https://www.audacityteam.org/) for audio editing:
+
+```bash
+flatpak install -y flathub org.audacityteam.Audacity
+```
+
 ---
 
 ### Office Work
 
-OnlyOffice - better for MS Office compatibility:
+[OnlyOffice](https://www.onlyoffice.com/) for better for MS Office compatibility:
 
 ```bash
 flatpak install -y flathub org.onlyoffice.desktopeditors
 ```
-
 ---
+
+### System Tools
+
+#### Mission Center 
+
+[Mission Center](https://missioncenter.io/) is a cool system monitor:
+
+```bash
+flatpak install flathub io.missioncenter.MissionCenter
+```
+
+#### Flatseal
+
+[Flatseal](https://flathub.org/apps/details/com.github.tchx84.Flatseal) manages Flatpak permissions:
+
+```bash
+flatpak install -y flathub com.github.tchx84.Flatseal
+```
+#### Warehouse
+
+Warehouse provides a simple UI to control complex Flatpak options, all without resorting to the command line.
+
+```bash
+flatpak install flathub io.github.flattool.Warehouse
+```
 
 ## 🖥️ Desktop Environment
 
@@ -758,9 +866,15 @@ gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$PTYXIS_PROFIL
 
 ---
 
-### KDE
+### KDE Plasma
 
-> 🚧 Nothing for now XD
+#### Latte Dock
+
+[Latte Dock](https://github.com/KDE/latte-dock) for a macOS-like experience:
+
+```bash
+sudo dnf install -y latte-dock
+```
 
 ---
 
