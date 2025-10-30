@@ -398,7 +398,7 @@ Web pages and documents still look weird without these.
 sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
 
 # Install the fonts
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+sudo rpm -i --nodigest --nosignature https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 # Update font cache
 sudo fc-cache -fv
