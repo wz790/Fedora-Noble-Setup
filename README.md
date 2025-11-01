@@ -15,16 +15,9 @@
 
 ## 👋 Hey there!
 
-So you just installed Fedora and now you're staring at a fresh desktop wondering "what next?" I've been there, and honestly, setting up a new Linux install can feel overwhelming. That's why I put together this guide it's basically everything I wish someone had told me when I first switched to Fedora.
+Since you're here, you've probably just installed Fedora and now you're staring at a new desktop wondering, "What next?" I've been there. Fedora requires some pushing after a fresh install :) That's why I put together this guide, which is basically everything I gathered from multiple sources when I switched to Fedora.
 
-This isn't some corporate documentation. It's just me sharing what actually works, what breaks, and how to fix it when things go sideways (because they will, and that's totally normal).
-
-### 🎯 Who's this for?
-
-- ✅ **Brand new to Fedora?** Perfect.
-- ✅ **Coming from Ubuntu or another distro?** Also perfect.
-- ✅ **Been using Fedora for years but want a solid checklist?** Yep, you too.
-- ⚠️ **Complete Linux newbie?** You might struggle a bit, but stick with it!
+This is not an official guide. It's just me sharing what I used, and some settings or personal preferences that you can feel free to skip. Just read everything before copy past.
 
 ### 💡 Quick heads up about commands:
 
@@ -124,7 +117,8 @@ Yeah, I know, updates are boring. But seriously, do this first. Fresh installs a
 ```bash
 # Update everything
 sudo dnf update -y
-
+```
+```bash
 # If it updated the kernel, reboot
 sudo reboot
 ```
@@ -151,7 +145,7 @@ sudo fwupdmgr get-updates
 sudo fwupdmgr update
 ```
 
-> ⚠️ **Note**: Some firmware updates need a reboot. Just do it.
+> ⚠️ **Note**: After firmware updates you need a reboot. Just do it.
 
 ---
 
@@ -163,8 +157,6 @@ This is purely cosmetic but makes you feel more at home. Pick something fun!
 # Replace with whatever you want
 sudo hostnamectl set-hostname hungry-beast
 ```
-
-> 😄 **fact**: You can call your machines, hungry-beast, pizza-potato, taco... you get the idea.
 
 ---
 
@@ -191,13 +183,13 @@ flatpak update --appstream
 
 ### NVIDIA (The Tricky One)
 
-> ⚠️ **WARNING**: NVIDIA on Linux is... complicated. This works most of the time, but if you have issues, welcome to the club.
+> ⚠️ **WARNING**: NVIDIA on Linux is complicated for now this works most of the time, but if you have issues, welcome to the club.
 
 #### 📋 Before you start:
 
 - Turn off **Secure Boot** in your BIOS (or learn to sign kernel modules your choice ;). )
 - Make sure everything is **updated and rebooted**
-- Have a backup plan (seriously)
+- Have a backup plan (seriously it's not my responsibility.)
 
 ```bash
 # Install kernel headers and dev tools
