@@ -355,7 +355,7 @@ sudo dnf install -y ffmpeg-libs libva libva-utils
 **NVIDIA users, add this too:**
 
 ```bash
-sudo dnf install -y nvidia-vaapi-driver
+sudo dnf install -y libva-nvidia-driver
 ```
 
 ---
