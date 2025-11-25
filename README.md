@@ -169,14 +169,42 @@ Fedora comes with a neutered version of [Flatpak](https://flatpak.org/). [Flathu
 ```bash
 # Remove the limited Fedora repo
 flatpak remote-delete fedora
+```
+Here i will let you decide there are a few options. Choose the one that suits you best. Personally, I would choose the first option, but you can decide for yourself here some info from [flathub](https://docs.flathub.org/docs/for-users/installation#remove-subsets).
 
-# Add the real Flathub
+#### Option 1: Full Repository:
+
+Get access to everything Flathub (that include apps that are not officially maintained by their developers):
+
+```bash
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# Update everything
-flatpak update --appstream
 ```
 
+#### Option 2: Verified Apps Only:
+
+If you want only apps maintained by their actual developers go with this:
+
+```bash
+flatpak remote-add --if-not-exists --subset=verified flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+**Note:** Some popular apps won't show up because they're packaged by the community.
+
+#### Option 3: Open Source Only:
+
+This for only free and open source software:
+
+```bash
+flatpak remote-add --if-not-exists --subset=floss flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+#### Option 4: Verified + Open Source:
+
+The most restrictive option it include only apps that are both verified by developers and open source:
+
+```bash
+flatpak remote-add --if-not-exists --subset=verified_floss flathub https://flathub.org/repo/flathub.flatpakrepo
+```
 ---
 
 ## 🎮 Graphics Drivers
