@@ -550,7 +550,7 @@ This encrypts your DNS queries so your ISP can't see what websites you're visiti
 
 > ⚠️ **WARNING**:This global DoT setup with resolve-mode=exclusive breaks captive portal detection on voucher-based/public WiFi networks (hotels, apartments, cafes, hotspots).
 
-<summary>## 🆘 Emergency Fix: Disable Global DoT (For Public WiFi/Hotels)
+<summary>## 🆘 Emergency Fix: Disable Global DoT (For Public WiFi/Hotels)</summary>
 
 **If you followed the Encrypted DNS setup and now can't access captive portal login pages** (hotels, apartments, cafes, airports) this will restore normal internet instantly.
 
