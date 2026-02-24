@@ -555,7 +555,7 @@ This encrypts your DNS queries so your ISP can't see what websites you're visiti
 
 **If you followed the Encrypted DNS setup and now can't access captive portal login pages** (hotels, apartments, cafes, airports) this will restore normal internet instantly.
 
-### ✅ Quick Disable (2 seconds):
+### ✅ Quick Disable:
 ```bash
 sudo systemctl stop dnsconfd && sudo rm /etc/NetworkManager/conf.d/global-dot.conf && sudo systemctl restart NetworkManager
 ```
@@ -579,8 +579,6 @@ EOF
 sudo systemctl restart NetworkManager
 ```
 </details>
-```
-
 
 **Install the packages:**
 ```bash
