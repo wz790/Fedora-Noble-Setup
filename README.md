@@ -843,12 +843,31 @@ flatpak install flathub io.missioncenter.MissionCenter
 ```bash
 flatpak install -y flathub com.github.tchx84.Flatseal
 ```
+
 #### Warehouse
 
 Warehouse provides a simple UI to control complex Flatpak options, all without resorting to the command line.
 
 ```bash
 flatpak install flathub io.github.flattool.Warehouse
+```
+
+#### auto-cpufreq
+
+[auto-cpufreq](https://github.com/AdnanHodzic/auto-cpufreq.git) is an automatic CPU speed and power optimizer.
+
+```bash
+git clone https://github.com/AdnanHodzic/auto-cpufreq.git
+cd auto-cpufreq && sudo ./auto-cpufreq-installer
+```
+
+#### nbfc-linux
+
+[nbfc-linux](https://github.com/nbfc-linux/nbfc-linux.git) is a fan control service for notebooks.
+
+```bash
+#download latest rpm release from https://github.com/nbfc-linux/nbfc-linux/releases 
+dnf install ./fedora-nbfc-linux-0.3.19-1.x86_64.rpm
 ```
 
 ## 🖥️ Desktop Environment
