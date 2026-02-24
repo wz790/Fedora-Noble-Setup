@@ -17,7 +17,7 @@
 
 Since you're here, you've probably just installed Fedora and now you're staring at a new desktop wondering, "What next?" I've been there. Fedora requires some pushing after a fresh install :) That's why I put together this guide, which is basically everything I gathered from multiple sources when I switched to Fedora.
 
-This is not an official guide. It's just me sharing what I used, and some settings or personal preferences that you can feel free to skip. Just read everything before copy past.
+This is not an official guide. It's just me sharing what I used, and some settings or personal preferences that you can feel free to skip. Just read everything before copy and paste.
 
 ### 💡 Quick heads up about commands:
 
