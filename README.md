@@ -548,6 +548,35 @@ sudo timedatectl set-local-rtc 0 --adjust-system-clock
 
 This encrypts your DNS queries so your ISP can't see what websites you're visiting.
 
+> ⚠️ **WARNING**:This global DoT setup with resolve-mode=exclusive breaks captive portal detection on voucher-based/public WiFi networks (hotels, apartments, cafes, hotspots).
+
+<summary>## 🆘 Emergency Fix: Disable Global DoT (For Public WiFi/Hotels)
+
+**If you followed the Encrypted DNS setup and now can't access captive portal login pages** (hotels, apartments, cafes, airports) this will restore normal internet instantly.
+
+### ✅ Quick Disable (2 seconds):
+```bash
+sudo systemctl stop dnsconfd && sudo rm /etc/NetworkManager/conf.d/global-dot.conf && sudo systemctl restart NetworkManager
+```
+
+**What this does**:
+- `stop dnsconfd` → Stops encrypted DNS service
+- `rm global-dot.conf` → Removes the "force DoT everywhere" rule  
+- `restart NetworkManager` → Reverts to normal DHCP DNS
+
+### 🔄 Re enable later (Home network only for now):
+```bash
+sudo systemctl enable --now dnsconfd
+sudo tee /etc/NetworkManager/conf.d/global-dot.conf > /dev/null <<EOF
+[main]
+dns=dnsconfd
+[global-dns]
+resolve-mode=exclusive
+[global-dns-domain-*]
+servers=dns+tls://1.1.1.1#one.one.one.one
+EOF
+sudo systemctl restart NetworkManager
+```
 
 **Install the packages:**
 ```bash
