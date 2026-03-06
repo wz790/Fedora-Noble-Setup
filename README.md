@@ -6,7 +6,7 @@
 
 <div align="center">
 
-[![Fedora](https://img.shields.io/badge/Fedora-42+-blue.svg?style=for-the-badge&logo=fedora)](https://getfedora.org/)
+[![Fedora](https://img.shields.io/badge/Fedora-43-blue.svg?style=for-the-badge&logo=fedora)](https://getfedora.org/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg?style=for-the-badge)](https://github.com/yourusername/fedora-setup/graphs/commit-activity)
 
 </div>
@@ -15,9 +15,9 @@
 
 ## 👋 Hey there!
 
-Since you're here, you've probably just installed Fedora and now you're staring at a new desktop wondering, "What next?" I've been there. Fedora requires some pushing after a fresh install :) That's why I put together this guide, which is basically everything I gathered from multiple sources when I switched to Fedora.
+Since you're here, chances are you've just installed Fedora and now you're looking at a new desktop wondering, "What next?" Fedora may require some configuration after a fresh install, which is why I've put together this guide, containing the basics and everything I've gathered from various sources.
 
-This is not an official guide. It's just me sharing what I used, and some settings or personal preferences that you can feel free to skip. Just read everything before copy and paste.
+Note: This guide is not an official guide. It's just a sharing of what I used, and some personal settings or preferences that you can skip. Just read and understand what you're doing before applying anything, and don't just copy and paste everything.
 
 ### 💡 Quick heads up about commands:
 
@@ -32,62 +32,55 @@ This is not an official guide. It's just me sharing what I used, and some settin
 <details>
 <summary>Click to expand full guide</summary>
 
-- [🔥 First Things First](#-first-things-first)
-  - [RPM Fusion - The Good Stuff](#rpm-fusion---the-good-stuff)
-  - [Updates (Boring but Important)](#updates-boring-but-important)
+- [First Things](#-first-things)
+  - [RPM Fusion](#rpm-fusion)
+  - [Updates](#updates)
   - [Firmware Updates](#firmware-updates)
   - [Give Your Computer a Name](#give-your-computer-a-name)
-- [📦 Getting More Software](#-getting-more-software)
+- [Getting More Software](#-getting-more-software)
   - [Flathub Setup](#flathub-setup)
-- [🎮 Graphics Drivers](#-graphics-drivers)
-  - [NVIDIA (The Tricky One)](#nvidia-the-tricky-one)
-  - [AMD & Intel (The Easy Ones)](#amd--intel-the-easy-ones)
-- [🎵 Making Media Work](#-making-media-work)
-  - [Video Codecs (So Everything Plays)](#video-codecs-so-everything-plays)
+- [Graphics Drivers](#-graphics-drivers)
+  - [NVIDIA](#nvidia)
+  - [AMD & Intel](#amd--intel)
+- [Making Media Work](#-making-media-work)
+  - [Video Codecs](#video-codecs-so-everything-plays)
   - [Hardware Acceleration](#hardware-acceleration)
   - [Firefox Video Fix](#firefox-video-fix)
-- [🔧 Useful Stuff](#-useful-stuff)
+- [Useful Stuff](#-useful-stuff)
   - [Archive Support](#archive-support)
-  - [Microsoft Fonts (Unfortunately Still Needed)](#microsoft-fonts-unfortunately-still-needed)
   - [AppImage Support](#appimage-support)
-  - [Flatpak Auto-Updates](#flatpak-auto-updates)
-- [⚡ Making Things Faster](#-making-things-faster)
-  - [Faster Boots](#faster-boots)
-  - [Better Battery Life](#better-battery-life)
   - [Dual Boot Time Fix](#dual-boot-time-fix)
-- [🔒 Security Stuff](#-security-stuff)
-  - [Encrypted DNS (Optional but Cool)](#encrypted-dns-optional-but-cool)
-- [💾 Backup Your Stuff](#-backup-your-stuff)
+- [Backup Your Stuff](#-backup-your-stuff)
   - [System Snapshots](#system-snapshots)
   - [Personal Files](#personal-files)
-- [🎮 Gaming Setup](#-gaming-setup)
+- [Gaming Setup](#-gaming-setup)
   - [Steam and Gaming](#steam-and-gaming)
   - [Lutris](#lutris)
   - [MangoHud](#mangohud)
-- [🌟 Apps I Actually Use](#-apps-i-actually-use)
+- [Apps I Actually Use](#-apps-i-actually-use)
   - [Browsers](#browsers)
   - [Development](#development)
   - [Containers](#containers)
   - [Multimedia](#multimedia)
   - [Office Work](#office-work)
   - [System Tools](#system-tools)
-- [🖥️ Desktop Environment](#️-desktop-environment)
+- [Desktop Environment](#️-desktop-environment)
   - [GNOME](#gnome)
   - [KDE Plasma](#kde-plasma)
-- [🧹 Keeping Things Clean](#-keeping-things-clean)
+- [Keeping Things Clean](#-keeping-things-clean)
   - [System Cleanup](#system-cleanup)
 </details>
 
 ---
 
-## 🔥 First Things First
+## First Things
 
-### RPM Fusion - The Good Stuff
+### RPM Fusion
 
-Okay, first thing Fedora ships pretty bare-bones because of legal reasons. [RPM](https://rpmfusion.org/) Fusion is where all the actually useful stuff lives (codecs, drivers, etc.). You want this.
+Okay, first thing Fedora ships pretty bare-bones because of legal reasons. [RPM](https://rpmfusion.org/) Fusion is where all the actually useful stuff lives (codecs, drivers, etc.).
 
 ```bash
-# Get the free repository (most stuff you need)
+# Get the free repository 
 sudo dnf install -y \
   https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 
@@ -100,26 +93,18 @@ sudo dnf group upgrade core -y
 sudo dnf check-update
 ```
 
-<details>
-<summary>🤔 What's the difference between free and nonfree?</summary>
-
-- **Free**: Open source software that's legally redistributable
-- **Nonfree**: Proprietary software (NVIDIA drivers, some codecs) that can't be shipped with Fedora due to licensing
-
-</details>
-
 ---
 
-### Updates (Boring but Important)
+### Updates
 
-Yeah, I know, updates are boring. But seriously, do this first. Fresh installs always have outdated packages.
+We need to update because fresh installs always have outdated packages.
 
 ```bash
 # Update everything
 sudo dnf update -y
 ```
 ```bash
-# If it updated the kernel, reboot
+# It is recommended to restart after updating.
 sudo reboot
 ```
 
@@ -145,32 +130,32 @@ sudo fwupdmgr get-updates
 sudo fwupdmgr update
 ```
 
-> ⚠️ **Note**: After firmware updates you need a reboot. Just do it.
+> ⚠️ **Note**: After firmware updates you need a reboot.
 
 ---
 
 ### Give Your Computer a Name
 
-This is purely cosmetic but makes you feel more at home. Pick something fun!
+This is purely cosmetic but makes you feel more at home :)
 
 ```bash
 # Replace with whatever you want
-sudo hostnamectl set-hostname hungry-beast
+sudo hostnamectl set-hostname Pizza
 ```
 
 ---
 
-## 📦 Getting More Software
+## Getting More Software
 
 ### Flathub Setup
 
 Fedora comes with a neutered version of [Flatpak](https://flatpak.org/). [Flathub](https://flathub.org/) is where the actual apps are.
 
 ```bash
-# Remove the limited Fedora repo
+# Remove the limited Fedora repo to prevent conflicts
 flatpak remote-delete fedora
 ```
-Here i will let you decide there are a few options. Choose the one that suits you best. Personally, I would choose the first option, but you can decide for yourself here some info from [flathub](https://docs.flathub.org/docs/for-users/installation#remove-subsets).
+Here, I will leave the decision up to you; there are several options. Choose the one that suits you best. Here is a resource that may help you [flathub](https://docs.flathub.org/docs/for-users/installation#remove-subsets).
 
 #### Option 1: Full Repository:
 
@@ -182,7 +167,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 #### Option 2: Verified Apps Only:
 
-If you want only apps maintained by their actual developers go with this:
+Only apps maintained by their actual developers :
 
 ```bash
 flatpak remote-add --if-not-exists --subset=verified flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -192,7 +177,7 @@ flatpak remote-add --if-not-exists --subset=verified flathub https://flathub.org
 
 #### Option 3: Open Source Only:
 
-This for only free and open source software:
+This for only free and open source software :
 
 ```bash
 flatpak remote-add --if-not-exists --subset=floss flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -200,91 +185,74 @@ flatpak remote-add --if-not-exists --subset=floss flathub https://flathub.org/re
 
 #### Option 4: Verified + Open Source:
 
-The most restrictive option it include only apps that are both verified by developers and open source:
+The most restrictive option it include only apps that are both verified by developers and open source :
 
 ```bash
 flatpak remote-add --if-not-exists --subset=verified_floss flathub https://flathub.org/repo/flathub.flatpakrepo
 ```
 ---
 
-## 🎮 Graphics Drivers
+## Graphics Drivers
 
-### NVIDIA (The Tricky One)
+### NVIDIA
 
-> ⚠️ **WARNING**: NVIDIA on Linux is complicated for now this works most of the time, but if you have issues, welcome to the club.
+NVIDIA drivers on Fedora 43 are best installed via RPM Fusion's akmod-nvidia packages, here there are also two options here: enable Secure Boot (preferred for security) or disable it. The choice is yours. 
+The best official source is here [RPMFUSION HOW TO NVIDIA](https://rpmfusion.org/Howto/NVIDIA) for you to look into yourself, while I will try to be brief.
 
-#### 📋 Before you start:
-
-- Turn off **Secure Boot** in your BIOS (or learn to sign kernel modules your choice ;). )
-- Make sure everything is **updated and rebooted**
-- Have a backup plan (seriously it's not my responsibility.)
-
+#### Prerequisites (both options)
+Install kernel headers and dev tools:
 ```bash
-# Install kernel headers and dev tools
-sudo dnf install -y kernel-devel kernel-headers gcc make dkms acpid \
-  libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
-
-# Enable RPM Fusion (if not already done)
-sudo dnf install -y \
-  https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-  https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install kernel-devel kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
 ```
-
-> 📌 **Special Note for RTX 4000 and Newer Series:**
-> 
-> If you're using a 4000 series or newer GPU, Fedora needs a build macro set before installing the driver. This enables the open kernel module.
-
+For RTX 4000+ GPUs, set open kernel module:
 ```bash
-# Set open kernel module macro (one-time step for RTX 4000+)
 sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
 ```
 
-#### Install the NVIDIA driver:
-
+#### Option 1: Secure Boot Enabled (Recommended)
+Install signing tools before driver:
 ```bash
-sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+sudo dnf install akmods mokutil openssl
+sudo kmodgenca -a
+sudo mokutil --import /etc/pki/akmods/certs/public_key.der
 ```
+Reboot, enroll MOK key in blue screen (set password, confirm), then reboot again.
 
-Now **wait**. Seriously. It takes 5–15 minutes to build the module.
-
-You can monitor progress with:
-
+Install driver:
 ```bash
-sudo journalctl -f -u akmods
+sudo dnf install akmod-nvidia xorg-x11-drv-nvidia-cuda
 ```
+Wait 5-15 min for build, you can monitor progress with:(`sudo journalctl -f -u akmods`).
+When finished, reboot.
 
-Once done:
+#### Option 2: Secure Boot Disabled
+Disable Secure Boot in BIOS/UEFI settings first.
 
+Then install directly:
 ```bash
-sudo reboot
+sudo dnf install akmod-nvidia xorg-x11-drv-nvidia-cuda
 ```
+Wait for build, then reboot.
 
-#### ✅ Check if it worked:
-
+#### Verification After installation
+To verify, the following commands will give you the status of the driver and secure boot.
 ```bash
 nvidia-smi
+modinfo nvidia
+mokutil --sb-state 
 ```
-
-You should see your GPU info. If not, try this:
-
-```bash
-# Force rebuild and try again
-sudo akmods --force --kernels $(uname -r)
-sudo reboot
-```
-
 <details>
-<summary>🆘 Help! I'm stuck at 800×600 / black screen / terminal!</summary>
+<summary>🆘 Troubleshooting stuck at 800×600 / black screen / terminal!</summary>
 
 The NVIDIA module probably didn't build correctly. Here's what to do:
 
-1. **Boot into an older kernel**:
+1. **Black screen/low res: Boot into an older kernel**:
    - At GRUB menu, select "Advanced Options"
    - Pick the previous kernel version
    
-2. **Force rebuild**:
+2. **Build fails: Force rebuild**:
    ```bash
-   sudo akmods --kernels $(uname -r) --rebuild
+   sudo akmods --rebuild --force
    sudo reboot
    ```
 
@@ -296,69 +264,69 @@ The NVIDIA module probably didn't build correctly. Here's what to do:
 
 </details>
 
-> 💡 **Tip**: After kernel updates, especially on newer GPUs, you might need to manually rebuild:
+> 💡 **Tip**: After kernel updates, you might need to manually do:
 > 
 > ```bash
-> sudo akmods --kernels $(uname -r) --rebuild
+> sudo akmods --force --kernels $(uname -r)
 > sudo reboot
 > ```
 
 ---
 
-### AMD & Intel (The Easy Ones)
+### AMD & Intel
 
 These usually just work, but let's make them work **better**.
 
-#### Both AMD & Intel:
+#### Core Packages (AMD & Intel):
 
+Vulkan and basic acceleration:
 ```bash
-# Basic drivers and Vulkan support
-sudo dnf install -y mesa-dri-drivers mesa-vulkan-drivers vulkan-loader mesa-libGLU
+sudo dnf install mesa-vulkan-drivers vulkan-loader mesa-libGLU libva-utils
 ```
 
-#### AMD Only:
+#### AMD (Video Acceleration):
 
+Replace defaults with freeworld for full codec support (H.264/HEVC):
 ```bash
-# AMD video acceleration (makes videos smoother)
-sudo dnf install -y mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld
+sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 ```
 
-#### Intel (Newer GPUs):
+#### Intel (Video Acceleration)
+
+* Intel Newer GPUs (11th Gen+):
 
 ```bash
 # Intel video acceleration (for newer Intel GPUs)
 sudo dnf install -y intel-media-driver
 ```
 
-#### Intel (Older GPUs):
+* Intel Older GPUs (pre-11th Gen):
 
 ```bash
 # Intel video acceleration (for Grandfather Intel GPUs)
 sudo dnf install -y libva-intel-driver
 ```
-
-> ✅ **That's it!** AMD and Intel are usually plug-and-play.
-
 ---
 
-## 🎵 Making Media Work
+## Making Media Work
 
-### Video Codecs (So Everything Plays)
+### Video Codecs
 
-Fedora ships with basically no codecs because of patent issues. This fixes that.
+Fedora ships with basically no codecs because of patent issues, so RPM Fusion is required for full H.264, HEVC, VP9, and AV1 support. You can follow the official RPM Fusion guide [RPM FUSION How to Multimedia](https://rpmfusion.org/Howto/Multimedia/) to understand more, but I will summarise it for you. 
+
+Swap to full FFmpeg (essential for most apps(
+```bash
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+```
+Update multimedia group (GStreamer full + codecs)
 
 ```bash
-# Replace the neutered ffmpeg with the real one
-sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
+sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+```
+Optional sound/video group (apps/plugins)
 
-# Install all the GStreamer plugins
-sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
-  gstreamer1-plugin-openh264 gstreamer1-libav lame\* \
-  --exclude=gstreamer1-plugins-bad-free-devel
-
-# Install multimedia groups
-sudo dnf group install -y multimedia
-sudo dnf group install -y sound-and-video
+```bash
+sudo dnf groupupdate sound-and-video
 ```
 
 ---
@@ -384,11 +352,10 @@ sudo dnf install -y libva-nvidia-driver
 
 Firefox needs a little help with H.264 videos.
 
+Install the Cisco codec and enable it:
 ```bash
-# Install the Cisco codec (it's free but weird licensing)
 sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 
-# Enable the Cisco repo
 sudo dnf config-manager --set-enabled fedora-cisco-openh264
 sudo dnf update -y
 ```
@@ -397,7 +364,7 @@ sudo dnf update -y
 
 ---
 
-## 🔧 Useful Stuff
+## Useful Stuff
 
 ### Archive Support
 
@@ -406,25 +373,6 @@ Because you'll definitely need to extract a `.rar` file someday.
 ```bash
 sudo dnf install -y p7zip p7zip-plugins unrar
 ```
-
----
-
-### Microsoft Fonts (Unfortunately Still Needed)
-
-Web pages and documents still look weird without these.
-
-```bash
-# Install dependencies
-sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
-
-# Install the fonts
-sudo rpm -i --nodigest --nosignature https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
-
-# Update font cache
-sudo fc-cache -fv
-```
-
-> Yes, we still need Arial and Times New Roman. Blame Microsoft ;).
 
 ---
 
@@ -443,192 +391,22 @@ flatpak install -y flathub it.mijorus.gearlever
 
 ---
 
-### Flatpak Auto-Updates
-
-You can keep your Flatpak apps up to date automatically. This setup updates your Flatpaks every 24 hours and is especially helpful if you disable GNOME Software on startup.
-
-```bash
-# Create the service unit
-sudo tee /etc/systemd/system/flatpak-update.service > /dev/null <<'EOF'
-[Unit]
-Description=Update Flatpak apps automatically
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/flatpak update -y --noninteractive
-EOF
-
-# Create the timer unit
-sudo tee /etc/systemd/system/flatpak-update.timer > /dev/null <<'EOF'
-[Unit]
-Description=Run Flatpak update every 24 hours
-Wants=network-online.target
-Requires=network-online.target
-After=network-online.target
-
-[Timer]
-OnBootSec=120
-OnUnitActiveSec=24h
-
-[Install]
-WantedBy=timers.target
-EOF
-
-# Reload systemd and enable the timer
-sudo systemctl daemon-reload
-sudo systemctl enable --now flatpak-update.timer
-
-# Check the status to verify everything is working
-sudo systemctl status flatpak-update.timer
-```
-
-> 🎯 **What this does**: Updates Flatpaks 2 minutes after boot, then every 24 hours. Set it and forget it!
-
----
-
-## ⚡ Making Things Faster
-
-### Faster Boots
-
-This one's easy and makes a noticeable difference.
-
-```bash
-sudo systemctl disable NetworkManager-wait-online.service
-```
-
-> 💡 **Why?** This service waits for network connections during boot. Most people don't need this delay.
-
----
-
-### Better Battery Life
-
-> 🚨 **CAUTION**: Don't mess with this unless you know what you're doing, my friendo ;)
-
-Fedora's power management is pretty good, but I personally prefer [TLP](https://linrunner.de/tlp/) for my laptop:
-
-**Official TLP docs**: [TLP Documentation](https://linrunner.de/tlp/introduction.html)
-```bash
-# Add TLP Repository 
-sudo dnf install -y \
-  https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc$(rpm -E %fedora).noarch.rpm
-
-# Remove conflicting power profiles daemon
-sudo dnf remove -y tuned tuned-ppd
-
-# Install TLP
-sudo dnf install -y tlp tlp-rdw
-
-# Enable TLP service 
-sudo systemctl enable tlp.service
-
-# Mask the following services to avoid conflicts
-sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
-```
-
-> ⚠️ **Important**: Only install TLP if Fedora's built-in power management isn't working for you.
-
----
-
 ### Dual Boot Time Fix
 
 If you dual boot with Windows, this fixes the clock being wrong.
 
+Tell Fedora to use UTC for hardware clock
 ```bash
-# Tell Fedora to use UTC for hardware clock
 sudo timedatectl set-local-rtc 0 --adjust-system-clock
 ```
 
-> 🤓 **Explanation**: Windows uses local time for hardware clock, Linux uses UTC. This tells Linux to play nice.
-
 ---
 
-## 🔒 Security Stuff
-
-### Encrypted DNS (Optional but Cool)
-
-This encrypts your DNS queries so your ISP can't see what websites you're visiting.
-
-> ⚠️ **WARNING**:This global DoT setup with resolve-mode=exclusive breaks captive portal detection on voucher-based/public WiFi networks (hotels, apartments, cafes, hotspots).
-
-<details>
-<summary>## 🆘 Emergency Fix: Disable Global DoT (For Public WiFi/Hotels)</summary>
-
-**If you followed the Encrypted DNS setup and now can't access captive portal login pages** (hotels, apartments, cafes, airports) this will restore normal internet instantly.
-
-### ✅ Quick Disable:
-```bash
-sudo systemctl stop dnsconfd && sudo rm /etc/NetworkManager/conf.d/global-dot.conf && sudo systemctl restart NetworkManager
-```
-
-**What this does**:
-- `stop dnsconfd` → Stops encrypted DNS service
-- `rm global-dot.conf` → Removes the "force DoT everywhere" rule  
-- `restart NetworkManager` → Reverts to normal DHCP DNS
-
-### 🔄 Re enable later (Home network only for now):
-```bash
-sudo systemctl enable --now dnsconfd
-sudo tee /etc/NetworkManager/conf.d/global-dot.conf > /dev/null <<EOF
-[main]
-dns=dnsconfd
-[global-dns]
-resolve-mode=exclusive
-[global-dns-domain-*]
-servers=dns+tls://1.1.1.1#one.one.one.one
-EOF
-sudo systemctl restart NetworkManager
-```
-</details>
-
-**Install the packages:**
-```bash
-sudo dnf install dnsconfd
-```
-
-**Stop and disable systemd-resolved to avoid conflicts:**
-```bash
-sudo systemctl disable --now systemd-resolved
-sudo systemctl mask systemd-resolved
-sudo systemctl enable --now dnsconfd
-```
-
-**Configure NetworkManager to use Cloudflare's DNS:**
-```bash
-sudo mkdir -p /etc/NetworkManager/conf.d
-sudo tee /etc/NetworkManager/conf.d/global-dot.conf > /dev/null <<EOF
-[main]
-dns=dnsconfd
-
-[global-dns]
-resolve-mode=exclusive
-
-[global-dns-domain-*]
-servers=dns+tls://1.1.1.1#one.one.one.one
-EOF
-
-sudo systemctl restart NetworkManager
-```
-
-<details>
-<summary>🔍 How to verify it's working</summary>
-
-
-Test that DNS actually works:
-
-got to https://one.one.one.one/help/ and check the results.
-
-You should see **"Using DNS over TLS (DoT) - Yes"** 
-
-If it say Yes, you're all set!
-</details>
-
----
-
-## 💾 Backup Your Stuff
+## Backup Your Stuff
 
 ### System Snapshots
 
-If you're using Btrfs (default in newer Fedora), you can take snapshots with btrfs assistant.
+If you're using Btrfs (default in Fedora), you can take snapshots with btrfs assistant.
 
 ```bash
 sudo dnf install -y btrfs-assistant btrbk snapper
@@ -653,13 +431,12 @@ sudo systemctl enable --now snapper-cleanup.timer
 
 Use Déjà Dup for your documents, photos, etc.
 
-From fedora repos
+Install it From fedora repos :
 ```bash
-# Install it
 sudo dnf install -y deja-dup
 ```
 
-Or get it from Flathub
+Or get it from Flathub :
 ```bash
 flatpak install -y flathub org.gnome.DejaDup
 ```
@@ -668,25 +445,21 @@ flatpak install -y flathub org.gnome.DejaDup
 
 ---
 
-## 🎮 Gaming Setup
+## Gaming Setup
 
 ### Steam and Gaming
 
-[Steam](https://store.steampowered.com/) works great on Fedora thanks to Proton.
+Install [Steam](https://store.steampowered.com/) from fedora repos :
 
 ```bash
 sudo dnf install -y steam
 ```
 
-That's it. Seriously. Most Windows games just work now.
-
-> 📌 **Note**: If you're using a newer NVIDIA GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue. Remove the RPM version and install the Flatpak instead:
+> 📌 **Note**: If you're using a newer NVIDIA GPU and Steam doesn't launch or acts weird, it's probably a missing dependency issue. Remove the RPM version and install the Flatpak instead with :
 
 ```bash
-# Remove Steam RPM version 
 sudo dnf remove steam
 
-# Install Steam Flatpak version 
 flatpak install -y flathub com.valvesoftware.Steam
 ```
 ### Lutris
@@ -713,7 +486,7 @@ sudo dnf install -y mangohud
 
 ---
 
-## 🌟 Apps I Actually Use
+## Apps I Use
 
 ### Browsers
 
@@ -851,25 +624,13 @@ Warehouse provides a simple UI to control complex Flatpak options, all without r
 flatpak install flathub io.github.flattool.Warehouse
 ```
 
-## 🖥️ Desktop Environment
+## Desktop Environment
 
 ### GNOME
 
-#### Stop GNOME Software autostart
-
-This thing launches every boot and just sits there hogging memory. I always remove it:
-
-```bash
-sudo rm /etc/xdg/autostart/org.gnome.Software.desktop
-```
-
-> ⚠️ **Note**: Removing GNOME Software from autostart disables update notifications. You'll need to manually check for updates or use the auto-update methods mentioned above.
-
----
-
 #### Get GNOME Tweaks
 
-You literally can't use GNOME without this. Need to add minimize/maximize buttons? This is where you do it:
+With it you can add minimize/maximize buttons and some gnome tweaks.
 
 ```bash
 sudo dnf install -y gnome-tweaks
@@ -879,7 +640,7 @@ sudo dnf install -y gnome-tweaks
 
 #### Extra themes (if you're into that)
 
-I stick with default but some people like options. Up to you:
+I stick with default but some people like options. Up to you.
 
 ```bash
 sudo dnf install -y gnome-themes-extra
@@ -887,9 +648,9 @@ sudo dnf install -y gnome-themes-extra
 
 ---
 
-#### Extension Manager is essential
+#### Extension Manager
 
-Don't even think about skipping this one. Makes managing extensions actually easy:
+A utility for browsing and installing GNOME Shell Extensions.
 
 ```bash
 flatpak install -y flathub com.mattjakeman.ExtensionManager
@@ -929,17 +690,15 @@ sudo dnf install -y latte-dock
 
 ---
 
-## 🧹 Keeping Things Clean
+## Keeping Things Clean
 
 ### System Cleanup
 
-Do this occasionally to free up space.
+Clean package cache and remove orphaned packages
 
 ```bash
-# Clean package cache
 sudo dnf clean all
 
-# Remove orphaned packages
 sudo dnf autoremove -y
 ```
 
