@@ -196,7 +196,7 @@ flatpak remote-add --if-not-exists --subset=verified_floss flathub https://flath
 
 ### NVIDIA
 
-NVIDIA drivers on Fedora 43 are best installed via RPM Fusion's akmod-nvidia packages, here there are also two options here: enable Secure Boot (preferred for security) or disable it. The choice is yours. 
+NVIDIA drivers on Fedora are best installed via RPM Fusion's akmod-nvidia packages, there are two options for you first with enabled Secure Boot (preferred) or disable it. The choice is yours. 
 The best official source is here [RPMFUSION HOW TO NVIDIA](https://rpmfusion.org/Howto/NVIDIA) for you to look into yourself, while I will try to be brief.
 
 #### Prerequisites (both options)
