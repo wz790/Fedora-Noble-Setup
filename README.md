@@ -32,25 +32,25 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
 <details>
 <summary>Click to expand full guide</summary>
 
-- [First Things](#-first-things)
+- [First Things](#first-things)
   - [RPM Fusion](#rpm-fusion)
   - [Updates](#updates)
   - [Firmware Updates](#firmware-updates)
   - [Give Your Computer a Name](#give-your-computer-a-name)
-- [Getting More Software](#-getting-more-software)
+- [Getting More Software](#getting-more-software)
   - [Flathub Setup](#flathub-setup)
-- [Graphics Drivers](#-graphics-drivers)
+- [Graphics Drivers](#graphics-drivers)
   - [NVIDIA](#nvidia)
   - [AMD & Intel](#amd--intel)
-- [Making Media Work](#-making-media-work)
+- [Making Media Work](#making-media-work)
   - [Video Codecs](#video-codecs-so-everything-plays)
   - [Hardware Acceleration](#hardware-acceleration)
   - [Firefox Video Fix](#firefox-video-fix)
-- [Useful Stuff](#-useful-stuff)
+- [Useful Stuff](#useful-stuff)
   - [Archive Support](#archive-support)
   - [AppImage Support](#appimage-support)
   - [Dual Boot Time Fix](#dual-boot-time-fix)
-- [Backup Your Stuff](#-backup-your-stuff)
+- [Backup Your Stuff](#backup-your-stuff)
   - [System Snapshots](#system-snapshots)
   - [Personal Files](#personal-files)
 - [Gaming Setup](#-gaming-setup)
@@ -88,8 +88,8 @@ sudo dnf install -y \
 sudo dnf install -y \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Update everything so it all plays nice together
-sudo dnf group upgrade core -y
+# Install AppStream metadata
+sudo dnf install rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
 sudo dnf check-update
 ```
 
