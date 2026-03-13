@@ -209,7 +209,7 @@ For RTX 4000+ GPUs, set open kernel module:
 sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
 ```
 
-#### Option 1: Secure Boot Enabled (Recommended)
+#### Option 1: Secure Boot Enabled
 Install signing tools before driver:
 ```bash
 sudo dnf install akmods mokutil openssl
