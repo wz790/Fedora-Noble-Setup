@@ -68,16 +68,9 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
   - [Python Tooling](#python-tooling)
     - [uv](#uv)
     - [ruff](#ruff)
-    - [speedtest-cli](#speedtest-cli)
   - [Node.js Tooling](#nodejs-tooling)
     - [NVM](#nvm)
   - [Containers](#containers)
-    - [Docker](#docker)
-    - [Podman](#podman-alternative)
-  - [Databases & Local AI](#databases--local-ai)
-    - [PostgreSQL](#postgresql)
-    - [SQLite Browser](#sqlite-browser)
-    - [Ollama](#ollama)
   - [Multimedia](#multimedia)
     - [VLC](#vlc)
     - [MPV](#mpv)
@@ -91,8 +84,6 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
     - [OnlyOffice](#onlyoffice)
   - [Reading](#reading)
     - [Foliate](#foliate)
-    - [GoldenDict-ng](#goldendict-ng)
-    - [Pied](#pied)
   - [System Tools](#system-tools)
     - [Mission Center](#mission-center)
     - [Flatseal](#flatseal)
@@ -112,9 +103,6 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
     - [My must-have extensions](#my-must-have-extensions)
   - [KDE Plasma](#kde-plasma)
     - [Latte Dock](#latte-dock)
-- [Remote & Mobile Integration](#-remote--mobile-integration)
-  - [SSH Setup](#ssh-setup)
-  - [Termux Integration](#termux-integration)
 - [Keeping Things Clean](#-keeping-things-clean)
   - [System Cleanup](#system-cleanup)
 - [⚡ Power Management & Battery](#-power-management--battery)
@@ -668,14 +656,6 @@ uv pip install ...       # Drop-in pip replacement
 uv tool install ruff
 ```
 
-#### speedtest-cli
-
-[speedtest-cli](https://github.com/sivel/speedtest-cli) for quick internet speed tests from the terminal.
-
-```bash
-uv tool install speedtest-cli
-```
-
 ---
 
 ### Node.js Tooling
@@ -716,28 +696,7 @@ export PATH=$HOME/.npm-global/bin:$PATH
 
 ### Containers
 
-#### Docker
-
-[Docker](https://www.docker.com/) is the standard container runtime for most developers.
-
-```bash
-# Install Docker CE
-sudo dnf install -y dnf-utils
-sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Add user to docker group (no sudo needed)
-sudo usermod -aG docker $USER
-
-# Start and enable
-sudo systemctl enable --now docker
-```
-
-> ⚠️ **Note**: Log out and back in for group changes to take effect.
-
-#### Podman (Alternative)
-
-[Podman](https://podman.io/) is a daemonless, rootless container engine. It's the default in Fedora and more secure, but Docker has better compatibility with some tools.
+Podman is better than Docker, fight me :)
 
 ```bash
 # Podman core
@@ -747,59 +706,15 @@ sudo dnf install -y podman podman-compose
 flatpak install -y flathub io.podman_desktop.PodmanDesktop
 ```
 
----
-
-### Databases & Local AI
-
-#### PostgreSQL
-
-I use PostgreSQL for local development. Install the server and client tools:
-
-```bash
-sudo dnf install -y postgresql postgresql-server
-
-# Initialize the database cluster (first time only)
-sudo postgresql-setup --initdb
-
-# Enable and start the service
-sudo systemctl enable --now postgresql
-```
-
-> 💡 **Tip**: I toggle it with `sudo systemctl start postgresql` / `sudo systemctl stop postgresql` so it doesn't run at boot unless I need it. Add aliases for convenience:
+> 💡 **Note**: If you need Docker compatibility for specific tools, you can install Docker CE as an alternative:
 > ```bash
-> alias pg-start="sudo systemctl start postgresql"
-> alias pg-stop="sudo systemctl stop postgresql"
+> sudo dnf install -y dnf-utils
+> sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+> sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+> sudo usermod -aG docker $USER
+> sudo systemctl enable --now docker
 > ```
-
-#### SQLite Browser
-
-[DB Browser for SQLite](https://sqlitebrowser.org/) is a visual tool for SQLite databases. Handy for quick inspection without writing queries.
-
-```bash
-sudo dnf install -y sqlitebrowser
-```
-
-#### Ollama
-
-[Ollama](https://ollama.com/) lets you run local LLMs (Llama, Mistral, Gemma, etc.) entirely on your machine. Great for offline AI work and experimenting without API costs.
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-Start/stop the service manually when you need it (it's resource-heavy):
-
-```bash
-sudo systemctl start ollama
-sudo systemctl stop ollama
-```
-
-Pull and run a model:
-
-```bash
-ollama pull llama3.2
-ollama run llama3.2
-```
+> Log out and back in for group changes to take effect.
 
 ---
 
@@ -923,22 +838,6 @@ flatpak install -y flathub org.onlyoffice.desktopeditors
 
 ```bash
 flatpak install -y flathub com.github.johnfactotum.Foliate
-```
-
-#### GoldenDict-ng
-
-[GoldenDict-ng](https://github.com/xiaoyifang/goldendict-ng) is a modern fork of GoldenDict with better HiDPI support and active development. Great for looking up words while reading.
-
-```bash
-flatpak install -y flathub io.github.xiaoyifang.goldendict_ng
-```
-
-#### Pied
-
-[Pied](https://flathub.org/apps/com.mikeasoft.pied) is a TTS companion app that improves Foliate's read-aloud voice quality. The default espeak voice in Foliate is robotic — Pied fixes that with better neural voices.
-
-```bash
-flatpak install -y flathub com.mikeasoft.pied
 ```
 
 ---
@@ -1177,50 +1076,6 @@ gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$PTYXIS_PROFIL
 ```bash
 sudo dnf install -y latte-dock
 ```
-
----
-
-## 📱 Remote & Mobile Integration
-
-### SSH Setup
-
-```bash
-# Install OpenSSH server
-sudo dnf install -y openssh-server
-
-# Start/enable
-sudo systemctl enable --now sshd
-```
-
-> 💡 **Tip**: I keep SSH off by default and start it on demand. Some aliases that help:
-> ```bash
-> alias ssh-on="sudo systemctl start sshd"
-> alias ssh-off="sudo systemctl stop sshd"
-> alias ssh-status="sudo systemctl status sshd"
-> alias ssh-boot-on="sudo systemctl enable --now sshd"
-> alias ssh-boot-off="sudo systemctl disable --now sshd"
-> ```
-
----
-
-### Termux Integration
-
-If you have an Android phone with [Termux](https://termux.dev/) set up with SSH, you can mount its storage directly on your Linux machine using sshfs.
-
-First, make sure you have sshfs installed (see [System Tools](#system-tools)) and have set up SSH key auth with Termux.
-
-```bash
-# Create a mount point
-mkdir -p ~/Remotes/termux
-
-# Mount Termux internal storage
-sshfs termux:/storage/emulated/0 ~/Remotes/termux -o follow_symlinks
-
-# Unmount
-fusermount -u ~/Remotes/termux
-```
-
-> 💡 **Tip**: Set up SSH config in `~/.ssh/config` with a `Host termux` entry so you can just use `ssh termux` or `sshfs termux:...` as shorthand.
 
 ---
 
