@@ -60,15 +60,65 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
 - [Apps I Actually Use](#-apps-i-actually-use)
   - [Browsers](#browsers)
   - [Development](#development)
+    - [VS Code](#vs-code)
+    - [VS Codium](#vs-codium)
+    - [Sublime Text](#sublime-text)
+    - [Git](#git)
+    - [Seahorse](#seahorse)
+  - [Python Tooling](#python-tooling)
+    - [uv](#uv)
+    - [ruff](#ruff)
+    - [speedtest-cli](#speedtest-cli)
+  - [Node.js Tooling](#nodejs-tooling)
+    - [NVM](#nvm)
   - [Containers](#containers)
+    - [Docker](#docker)
+    - [Podman](#podman-alternative)
+  - [Databases & Local AI](#databases--local-ai)
+    - [PostgreSQL](#postgresql)
+    - [SQLite Browser](#sqlite-browser)
+    - [Ollama](#ollama)
   - [Multimedia](#multimedia)
+    - [VLC](#vlc)
+    - [MPV](#mpv)
+    - [yt-dlp](#yt-dlp)
+    - [OBS Studio](#obs-studio)
+    - [Audacity](#audacity)
+  - [Downloading & Syncing](#downloading--syncing)
+    - [rclone](#rclone)
+    - [Transmission](#transmission)
   - [Office Work](#office-work)
+    - [OnlyOffice](#onlyoffice)
+  - [Reading](#reading)
+    - [Foliate](#foliate)
+    - [GoldenDict-ng](#goldendict-ng)
+    - [Pied](#pied)
   - [System Tools](#system-tools)
+    - [Mission Center](#mission-center)
+    - [Flatseal](#flatseal)
+    - [Warehouse](#warehouse)
+    - [sshfs](#sshfs)
 - [Desktop Environment](#️-desktop-environment)
+  - [XFCE](#xfce)
+    - [PCManFM](#pcmanfm)
+    - [Redshift](#redshift)
+    - [Conky](#conky)
+    - [libinput-gestures](#libinput-gestures)
   - [GNOME](#gnome)
+    - [Get GNOME Tweaks](#get-gnome-tweaks)
+    - [Extra themes (if you're into that)](#extra-themes-if-youre-into-that)
+    - [Extension Manager](#extension-manager)
+    - [Terminal Transparency](#terminal-transparency)
+    - [My must-have extensions](#my-must-have-extensions)
   - [KDE Plasma](#kde-plasma)
+    - [Latte Dock](#latte-dock)
+- [Remote & Mobile Integration](#-remote--mobile-integration)
+  - [SSH Setup](#ssh-setup)
+  - [Termux Integration](#termux-integration)
 - [Keeping Things Clean](#-keeping-things-clean)
   - [System Cleanup](#system-cleanup)
+- [⚡ Power Management & Battery](#-power-management--battery)
+  - [TLP](#tlp)
 </details>
 
 ---
@@ -80,7 +130,7 @@ Note: This guide is not an official guide. It's just a sharing of what I used, a
 Okay, first thing Fedora ships pretty bare-bones because of legal reasons. [RPM](https://rpmfusion.org/) Fusion is where all the actually useful stuff lives (codecs, drivers, etc.).
 
 ```bash
-# Get the free repository 
+# Get the free repository
 sudo dnf install -y \
   https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 
@@ -196,7 +246,7 @@ flatpak remote-add --if-not-exists --subset=verified_floss flathub https://flath
 
 ### NVIDIA
 
-NVIDIA drivers on Fedora are best installed via RPM Fusion's akmod-nvidia packages, there are two options for you first with enabled Secure Boot (preferred) or disable it. The choice is yours. 
+NVIDIA drivers on Fedora are best installed via RPM Fusion's akmod-nvidia packages, there are two options for you first with enabled Secure Boot (preferred) or disable it. The choice is yours.
 The best official source is here [RPMFUSION HOW TO NVIDIA](https://rpmfusion.org/Howto/NVIDIA) for you to look into yourself, while I will try to be brief.
 
 #### Prerequisites (both options)
@@ -239,7 +289,7 @@ To verify, the following commands will give you the status of the driver and sec
 ```bash
 nvidia-smi
 modinfo nvidia
-mokutil --sb-state 
+mokutil --sb-state
 ```
 <details>
 <summary>🆘 Troubleshooting stuck at 800×600 / black screen / terminal!</summary>
@@ -249,7 +299,7 @@ The NVIDIA module probably didn't build correctly. Here's what to do:
 1. **Black screen/low res: Boot into an older kernel**:
    - At GRUB menu, select "Advanced Options"
    - Pick the previous kernel version
-   
+
 2. **Build fails: Force rebuild**:
    ```bash
    sudo akmods --rebuild --force
@@ -265,7 +315,7 @@ The NVIDIA module probably didn't build correctly. Here's what to do:
 </details>
 
 > 💡 **Tip**: After kernel updates, you might need to manually do:
-> 
+>
 > ```bash
 > sudo akmods --force --kernels $(uname -r)
 > sudo reboot
@@ -312,7 +362,7 @@ sudo dnf install -y libva-intel-driver
 
 ### Video Codecs
 
-Fedora ships with basically no codecs because of patent issues, so RPM Fusion is required for full H.264, HEVC, VP9, and AV1 support. You can follow the official RPM Fusion guide [RPM FUSION How to Multimedia](https://rpmfusion.org/Howto/Multimedia/) to understand more, but I will summarise it for you. 
+Fedora ships with basically no codecs because of patent issues, so RPM Fusion is required for full H.264, HEVC, VP9, and AV1 support. You can follow the official RPM Fusion guide [RPM FUSION How to Multimedia](https://rpmfusion.org/Howto/Multimedia/) to understand more, but I will summarise it for you.
 
 Swap to full FFmpeg (essential for most apps(
 ```bash
@@ -486,7 +536,7 @@ sudo dnf install -y mangohud
 
 ---
 
-## Apps I Use
+## 📦 Apps I Actually Use
 
 ### Browsers
 
@@ -531,10 +581,10 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 # Install VS Code
 sudo dnf install -y code
 ```
+
 #### VS Codium
 
-[VSCodium](https://vscodium.com) is a community-driven, freely-licensed binary distribution of Microsoft’s editor VS Code.
-
+[VSCodium](https://vscodium.com) is a community-driven, freely-licensed binary distribution of Microsoft's editor VS Code.
 
 ```bash
 # Add the GPG key of the repository:
@@ -547,18 +597,208 @@ printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=download.vscodium.com\nbase
 sudo dnf install codium
 ```
 
+#### Sublime Text
+
+[Sublime Text](https://www.sublimetext.com/) is fast, lightweight, and doesn't ask you to install an extension for everything. Great for quick edits and writing.
+
+```bash
+# Add the Sublime Text repo
+sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+
+sudo dnf config-manager addrepo --from-repofile=https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+
+# Install
+sudo dnf install -y sublime-text
+```
+
+#### Git
+
+[Git](https://git-scm.com/) for version control — you'll need this for basically everything.
+
+```bash
+sudo dnf install -y git
+```
+
+#### Seahorse
+
+[Seahorse](https://wiki.gnome.org/Apps/Seahorse) is the GNOME keyring manager. Fixes the "Failed to unlock the keyring" or password prompt loop you get with **VS Code** and **Brave** on non-GNOME desktops like XFCE.
+
+After installing, launch it once, set a blank password on the `Login` keyring, and those annoying popups go away permanently.
+
+```bash
+sudo dnf install -y seahorse
+```
+
+---
+
+### Python Tooling
+
+#### uv
+
+[uv](https://github.com/astral-sh/uv) is a blazing-fast Python package and project manager written in Rust. It replaces `pip`, `venv`, `pyenv`, and `pip-tools` in one tool. I use it for everything Python-related now.
+
+```bash
+# Install via the official script
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+This installs the `uv` binary to `~/.cargo/bin/`. Make sure that's in your PATH:
+
+```bash
+export PATH="$HOME/.cargo/bin:$PATH"
+```
+
+> 💡 **Tip**: Add the export to your `~/.bashrc` or `~/.bash_aliases` so it persists across sessions.
+
+Common usage:
+
+```bash
+uv init my-project       # Create a new project
+uv add requests          # Add a dependency
+uv run script.py         # Run a script in the project environment
+uv venv                  # Create a virtual environment
+uv pip install ...       # Drop-in pip replacement
+```
+
+#### ruff
+
+[ruff](https://github.com/astral-sh/ruff) is an extremely fast Python linter and code formatter, also from Astral (same folks as uv).
+
+```bash
+uv tool install ruff
+```
+
+#### speedtest-cli
+
+[speedtest-cli](https://github.com/sivel/speedtest-cli) for quick internet speed tests from the terminal.
+
+```bash
+uv tool install speedtest-cli
+```
+
+---
+
+### Node.js Tooling
+
+#### NVM
+
+[NVM](https://github.com/nvm-sh/nvm) (Node Version Manager) lets you install and switch between multiple Node.js versions without messing up your system.
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+
+Then add this to your `~/.bashrc` or `~/.bash_aliases`:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+```
+
+Install and use a Node version:
+
+```bash
+nvm install --lts        # Install the latest LTS
+nvm use --lts            # Use it
+nvm alias default lts/*  # Make it the default
+```
+
+Set a global npm prefix so global packages don't need sudo:
+
+```bash
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+export PATH=$HOME/.npm-global/bin:$PATH
+```
+
 ---
 
 ### Containers
 
-Podman is better than Docker, fight me :)
+#### Docker
+
+[Docker](https://www.docker.com/) is the standard container runtime for most developers.
+
+```bash
+# Install Docker CE
+sudo dnf install -y dnf-utils
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Add user to docker group (no sudo needed)
+sudo usermod -aG docker $USER
+
+# Start and enable
+sudo systemctl enable --now docker
+```
+
+> ⚠️ **Note**: Log out and back in for group changes to take effect.
+
+#### Podman (Alternative)
+
+[Podman](https://podman.io/) is a daemonless, rootless container engine. It's the default in Fedora and more secure, but Docker has better compatibility with some tools.
 
 ```bash
 # Podman core
-sudo dnf install -y podman podman-compose podman-docker
+sudo dnf install -y podman podman-compose
 
 # Podman GUI
 flatpak install -y flathub io.podman_desktop.PodmanDesktop
+```
+
+---
+
+### Databases & Local AI
+
+#### PostgreSQL
+
+I use PostgreSQL for local development. Install the server and client tools:
+
+```bash
+sudo dnf install -y postgresql postgresql-server
+
+# Initialize the database cluster (first time only)
+sudo postgresql-setup --initdb
+
+# Enable and start the service
+sudo systemctl enable --now postgresql
+```
+
+> 💡 **Tip**: I toggle it with `sudo systemctl start postgresql` / `sudo systemctl stop postgresql` so it doesn't run at boot unless I need it. Add aliases for convenience:
+> ```bash
+> alias pg-start="sudo systemctl start postgresql"
+> alias pg-stop="sudo systemctl stop postgresql"
+> ```
+
+#### SQLite Browser
+
+[DB Browser for SQLite](https://sqlitebrowser.org/) is a visual tool for SQLite databases. Handy for quick inspection without writing queries.
+
+```bash
+sudo dnf install -y sqlitebrowser
+```
+
+#### Ollama
+
+[Ollama](https://ollama.com/) lets you run local LLMs (Llama, Mistral, Gemma, etc.) entirely on your machine. Great for offline AI work and experimenting without API costs.
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Start/stop the service manually when you need it (it's resource-heavy):
+
+```bash
+sudo systemctl start ollama
+sudo systemctl stop ollama
+```
+
+Pull and run a model:
+
+```bash
+ollama pull llama3.2
+ollama run llama3.2
 ```
 
 ---
@@ -570,6 +810,35 @@ flatpak install -y flathub io.podman_desktop.PodmanDesktop
 ```bash
 # Install VLC
 sudo dnf install -y vlc
+```
+
+#### MPV
+
+[MPV](https://mpv.io/) is a lightweight, powerful media player with minimal UI and excellent codec support:
+
+```bash
+sudo dnf install -y mpv
+```
+
+```bash
+mpv video.mp4
+mpv https://youtu.be/...   # works with yt-dlp under the hood
+```
+
+#### yt-dlp
+
+[yt-dlp](https://github.com/yt-dlp/yt-dlp) is a YouTube (and basically everything else) downloader. The actively maintained fork of youtube-dl with more features and faster updates.
+
+```bash
+uv tool install yt-dlp
+```
+
+Basic usage:
+
+```bash
+yt-dlp <url>                            # Download video
+yt-dlp -f bestaudio --extract-audio <url>  # Audio only
+yt-dlp -o "%(title)s.%(ext)s" <url>    # Custom filename
 ```
 
 #### OBS Studio
@@ -590,18 +859,93 @@ flatpak install -y flathub org.audacityteam.Audacity
 
 ---
 
+### Downloading & Syncing
+
+#### rclone
+
+[rclone](https://rclone.org/) is like rsync but for cloud storage. I use it to sync files between my machine, Google Drive, and other remotes. It supports 70+ storage providers.
+
+```bash
+# Install via official script (always gets the latest version)
+curl https://rclone.org/install.sh | sudo bash
+```
+
+Configure your remotes:
+
+```bash
+rclone config   # Interactive setup wizard
+```
+
+Common usage:
+
+```bash
+rclone ls remote:path              # List files
+rclone copy local/path remote:path # Copy to remote
+rclone sync local/path remote:path # Sync (one-way)
+rclone mount remote: ~/Remotes/gdrive --daemon  # Mount as filesystem
+```
+
+> 💡 **Tip**: Add an alias to keep rclone updated:
+> ```bash
+> alias upd-rclone='sudo -v ; curl https://rclone.org/install.sh | sudo bash'
+> ```
+
+#### Transmission
+
+[Transmission](https://transmissionbt.com/) is a lightweight, no-nonsense BitTorrent client. Low on resources and gets out of your way.
+
+```bash
+sudo dnf install -y transmission
+```
+
+> 📌 **Note**: This installs the GTK version. If you want a web interface instead (useful for headless or remote use):
+> ```bash
+> sudo dnf install -y transmission-daemon
+> ```
+
+---
+
 ### Office Work
 
-[OnlyOffice](https://www.onlyoffice.com/) for better for MS Office compatibility:
+[OnlyOffice](https://www.onlyoffice.com/) for better MS Office compatibility:
 
 ```bash
 flatpak install -y flathub org.onlyoffice.desktopeditors
 ```
+
+---
+
+### Reading
+
+#### Foliate
+
+[Foliate](https://johnfactotum.github.io/foliate/) is a clean, minimal ebook reader that supports EPUB, MOBI, FB2, CBZ, and PDF. Perfect if you read a lot of tech books or ebooks.
+
+```bash
+flatpak install -y flathub com.github.johnfactotum.Foliate
+```
+
+#### GoldenDict-ng
+
+[GoldenDict-ng](https://github.com/xiaoyifang/goldendict-ng) is a modern fork of GoldenDict with better HiDPI support and active development. Great for looking up words while reading.
+
+```bash
+flatpak install -y flathub io.github.xiaoyifang.goldendict_ng
+```
+
+#### Pied
+
+[Pied](https://flathub.org/apps/com.mikeasoft.pied) is a TTS companion app that improves Foliate's read-aloud voice quality. The default espeak voice in Foliate is robotic — Pied fixes that with better neural voices.
+
+```bash
+flatpak install -y flathub com.mikeasoft.pied
+```
+
 ---
 
 ### System Tools
 
-#### Mission Center 
+#### Mission Center
 
 [Mission Center](https://missioncenter.io/) is a cool system monitor:
 
@@ -616,6 +960,7 @@ flatpak install flathub io.missioncenter.MissionCenter
 ```bash
 flatpak install -y flathub com.github.tchx84.Flatseal
 ```
+
 #### Warehouse
 
 Warehouse provides a simple UI to control complex Flatpak options, all without resorting to the command line.
@@ -624,7 +969,152 @@ Warehouse provides a simple UI to control complex Flatpak options, all without r
 flatpak install flathub io.github.flattool.Warehouse
 ```
 
-## Desktop Environment
+#### sshfs
+
+Mount remote directories over SSH as if they were local folders. I use this to mount my Termux storage from my Android phone.
+
+```bash
+sudo dnf install -y sshfs
+```
+
+Usage:
+
+```bash
+# Mount
+sshfs user@host:/remote/path ~/Remotes/mountpoint -o follow_symlinks
+
+# Unmount
+fusermount -u ~/Remotes/mountpoint
+```
+
+---
+
+## 🖥️ Desktop Environment
+
+### XFCE
+
+XFCE is fast, lightweight, and stays out of your way — perfect for older hardware like the ThinkPad T480.
+
+#### PCManFM
+
+[PCManFM](https://wiki.lxde.org/en/PCManFM) is a snappy, no-bloat file manager. Handles network mounts and MTP devices without complaint.
+
+```bash
+sudo dnf install -y pcmanfm
+```
+
+> 💡 **Tip**: Set PCManFM as your default file manager in XFCE Settings > Default Applications > Utilities.
+
+#### Redshift
+
+[Redshift](http://jonls.dk/redshift/) adjusts your screen's color temperature based on the time of day. Warm tones at night, normal during the day — your eyes will thank you.
+
+```bash
+sudo dnf install -y redshift
+```
+
+For XFCE, use the GTK frontend so you get a tray icon:
+
+```bash
+sudo dnf install -y redshift-gtk
+```
+
+Auto-start it with your session:
+
+```bash
+# Add to XFCE Session > Application Autostart
+redshift-gtk
+```
+
+Or create a minimal config at `~/.config/redshift.conf`:
+
+```ini
+[redshift]
+temp-day=5500
+temp-night=3500
+fade=1
+location-provider=manual
+
+[manual]
+lat=14.6  ; adjust to your location
+lon=121.0
+```
+
+#### Conky
+
+[Conky](https://github.com/brndnmtthws/conky) is a lightweight system monitor that renders directly on your desktop. Highly customizable — CPU, RAM, disk, network, and whatever else you want.
+
+```bash
+sudo dnf install -y conky
+```
+
+Create a basic config at `~/.conkyrc`:
+
+```lua
+conky.config = {
+    update_interval = 1,
+    background = true,
+    alignment = 'top_right',
+    gap_x = 15,
+    gap_y = 45,
+    own_window = true,
+    own_window_type = 'desktop',
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    draw_shades = false,
+    use_xft = true,
+    font = 'Monospace:size=9',
+    default_color = 'white',
+    default_shade_color = 'black',
+}
+
+conky.text = [[
+${color grey}CPU:$color ${cpu}% ${cpubar 8}
+${color grey}RAM:$color $mem / $memmax ${membar 8}
+${color grey}Disk:$color ${fs_used /} / ${fs_size /}
+${color grey}Net Up:$color ${upspeed} | Down: ${downspeed}
+${color grey}Uptime:$color $uptime
+]]
+```
+
+Auto-start with XFCE Session > Application Autostart: `conky --daemonize --pause=3`
+
+#### libinput-gestures
+
+[libinput-gestures](https://github.com/bulletmark/libinput-gestures) lets you use touchpad gestures (swipes, pinches) to trigger actions like workspace switching, window management, or custom commands.
+
+```bash
+# Install dependencies
+sudo dnf install -y libinput-tools xdotool
+
+# Add your user to the input group
+sudo gpasswd -a $USER input
+
+# Install from source
+git clone https://github.com/bulletmark/libinput-gestures.git
+cd libinput-gestures
+sudo make install
+```
+
+> ⚠️ **Note**: You need to log out and log back in (or reboot) after adding yourself to the `input` group for permissions to take effect.
+
+Configure custom gestures in `~/.config/libinput-gestures.conf`:
+
+```bash
+# Example: 3-finger swipe up/down for volume
+gesture swipe up 3 xdotool keyup volumeup
+gesture swipe down 3 xdotool keyup volumedown
+```
+
+**xdotool** is used alongside libinput-gestures to simulate keyboard presses and mouse actions from your gesture bindings.
+
+> 💡 **Tip**: Copy the example config to get started:
+> ```bash
+> cp /etc/libinput-gestures.conf ~/.config/libinput-gestures.conf
+> ```
+
+---
 
 ### GNOME
 
@@ -690,7 +1180,51 @@ sudo dnf install -y latte-dock
 
 ---
 
-## Keeping Things Clean
+## 📱 Remote & Mobile Integration
+
+### SSH Setup
+
+```bash
+# Install OpenSSH server
+sudo dnf install -y openssh-server
+
+# Start/enable
+sudo systemctl enable --now sshd
+```
+
+> 💡 **Tip**: I keep SSH off by default and start it on demand. Some aliases that help:
+> ```bash
+> alias ssh-on="sudo systemctl start sshd"
+> alias ssh-off="sudo systemctl stop sshd"
+> alias ssh-status="sudo systemctl status sshd"
+> alias ssh-boot-on="sudo systemctl enable --now sshd"
+> alias ssh-boot-off="sudo systemctl disable --now sshd"
+> ```
+
+---
+
+### Termux Integration
+
+If you have an Android phone with [Termux](https://termux.dev/) set up with SSH, you can mount its storage directly on your Linux machine using sshfs.
+
+First, make sure you have sshfs installed (see [System Tools](#system-tools)) and have set up SSH key auth with Termux.
+
+```bash
+# Create a mount point
+mkdir -p ~/Remotes/termux
+
+# Mount Termux internal storage
+sshfs termux:/storage/emulated/0 ~/Remotes/termux -o follow_symlinks
+
+# Unmount
+fusermount -u ~/Remotes/termux
+```
+
+> 💡 **Tip**: Set up SSH config in `~/.ssh/config` with a `Host termux` entry so you can just use `ssh termux` or `sshfs termux:...` as shorthand.
+
+---
+
+## 🧹 Keeping Things Clean
 
 ### System Cleanup
 
@@ -701,6 +1235,89 @@ sudo dnf clean all
 
 sudo dnf autoremove -y
 ```
+
+Useful cleanup aliases:
+
+```bash
+alias upd='sudo dnf upgrade'
+alias upd-full='sudo dnf upgrade --refresh'
+alias clean-leaves='sudo dnf autoremove'
+alias clean-cache='sudo dnf clean packages'
+alias clean-all='sudo dnf clean all'
+alias upkeep='upd && clean-leaves'
+alias deep-clean='upd-full && clean-leaves && clean-all'
+```
+
+---
+
+## ⚡ Power Management & Battery
+
+### TLP
+
+[TLP](https://linrunner.de/tlp/) is advanced power management for Linux laptops. It automatically optimizes power settings in the background, giving you better battery life without any manual tweaking.
+
+```bash
+# Install TLP
+sudo dnf install -y tlp tlp-rdw
+
+# Enable and start TLP
+sudo systemctl enable --now tlp
+
+# Apply settings immediately
+sudo tlp start
+```
+
+That's it — TLP works with sensible defaults. If you want to customize:
+
+```bash
+# Edit the config file
+sudo nano /etc/tlp.conf
+```
+
+**Useful settings to tweak:**
+
+| Setting | AC (Plugged In) | Battery | What it does |
+|---------|-----------------|---------|--------------|
+| `CPU_SCALING_GOVERNOR` | `performance` | `powersave` | CPU frequency scaling |
+| `WIFI_PWR_ON_AC` | `off` | `on` | WiFi power saving |
+| `RADEON_POWER_PROFILE` | `high` | `low` | AMD GPU power profile |
+| `THINKPAD_CHARGE_THRESHOLDS` | `90 100` | `40 80` | Battery charge limits (ThinkPad only) |
+
+**ThinkPad battery health tip:** Set charge thresholds to `40 80` on battery to extend battery lifespan:
+
+```bash
+# In /etc/tlp.conf, uncomment and set:
+START_CHARGE_THRESH_BAT0=40
+STOP_CHARGE_THRESH_BAT0=80
+```
+
+**Verification commands:**
+
+```bash
+# Check TLP status
+sudo tlp-stat -s
+
+# View current power settings
+sudo tlp-stat -p
+
+# Battery health and thresholds
+sudo tlp-stat -b
+
+# Full system report
+sudo tlp-stat -a
+```
+
+> 💡 **Tip**: Install `powertop` for real-time power monitoring:
+> ```bash
+> sudo dnf install -y powertop
+> sudo powertop          # Interactive monitor
+> sudo powertop --auto-tune  # One-time tuning (TLP handles this automatically)
+> ```
+
+> ⚠️ **Note**: TLP conflicts with `power-profiles-daemon` (used by GNOME). TLP will automatically mask it during installation. If you want to use GNOME's power profiles instead, remove TLP:
+> ```bash
+> sudo dnf remove tlp
+> ```
 
 ---
 
